@@ -1,9 +1,12 @@
 import type { CSSProperties, ReactNode } from 'react';
 import type { TileColor } from '../engine/tileColor';
 
+/** Tile tokens that are not part of the four-colour index cycle. */
+export type ExtraTone = 'teal-deep';
+
 interface BigTileProps {
-  /** Tile color from the cycle, or 'quiet' for a tile that is not lit yet. */
-  tone: TileColor | 'quiet';
+  /** A tile colour, or 'quiet' for a tile that is not lit yet. */
+  tone: TileColor | ExtraTone | 'quiet';
   /** Read aloud by assistive tech. The child navigates by glyph, not text. */
   ariaLabel: string;
   label?: string;

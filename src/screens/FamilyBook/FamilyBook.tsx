@@ -5,11 +5,11 @@ import Illustration from '../../components/Illustration';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../components/icons';
 import { useSettings } from '../../app/settings';
 import { useMedia } from '../../app/media';
+import { useProgress } from '../../app/progress';
 import { bookWordFor } from '../../engine/exampleWords';
 import { bookSequence } from '../../engine/letterSequence';
 import { tileStyleFor } from '../../engine/tileColor';
 import { sayBookPage } from '../../audio/say';
-import { recordExposure } from '../../storage/letters';
 import './FamilyBook.css';
 
 const SWIPE_MIN_PX = 40;
@@ -22,6 +22,7 @@ const SWIPE_MIN_PX = 40;
 export default function FamilyBook({ onHome }: { onHome: () => void }) {
   const { childName, familyNames, bookOrder, letterWords } = useSettings();
   const { photoUrl } = useMedia();
+  const { addExposure } = useProgress();
 
   const sequence = useMemo(
     () => bookSequence(bookOrder, childName, familyNames),
@@ -42,7 +43,7 @@ export default function FamilyBook({ onHome }: { onHome: () => void }) {
     setPage(wrapped);
     const nextLetter = sequence[wrapped] ?? 'A';
     sayBookPage(nextLetter, bookWordFor(nextLetter, childName, familyNames, letterWords));
-    void recordExposure(nextLetter);
+    addExposure(nextLetter);
   }
 
   function onTouchEnd(event: TouchEvent) {

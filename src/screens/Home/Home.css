@@ -21,18 +21,20 @@
   letter-spacing: -1px;
 }
 
+/* Five tiles across, one row. The mockup drew four; Find It is the fifth,
+   and every tile is still far wider than the 120px floor. */
 .home__tiles {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--gap-tile);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 20px;
   flex-grow: 1;
   min-height: 0;
 }
 
 /* The first letter of the child's name, in a circle, as on the mockup. */
 .home__letterBadge {
-  width: 180px;
-  height: 180px;
+  width: 150px;
+  height: 150px;
   max-width: 45%;
   max-height: 45%;
   border-radius: 50%;
@@ -42,7 +44,7 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: 140px;
+  font-size: 110px;
   font-weight: 700;
   line-height: 1;
 }

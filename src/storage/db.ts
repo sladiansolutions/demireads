@@ -32,6 +32,12 @@ export interface LetterProgress {
   correctByDay: Record<string, number>;
   sessionMisses: number;
   lastStateChange: string;
+  /**
+   * Calendar day this letter first entered the active set, "YYYY-MM-DD".
+   * Beyond SPEC 6's model, because the one-new-letter-per-day rule cannot be
+   * read off lastStateChange: promotions and demotions write that field too.
+   */
+  introducedOn?: string | undefined;
 }
 
 export interface NumberProgress {

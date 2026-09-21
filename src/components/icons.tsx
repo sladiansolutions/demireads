@@ -115,3 +115,34 @@ export function NotesGlyph({ size = 170 }: { size?: number }) {
     </svg>
   );
 }
+
+/** Home tile glyph for Find It: a letter under a magnifying glass. */
+export function FindGlyph({ size = 180 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 120 120" aria-hidden="true">
+      <circle cx="52" cy="52" r="34" fill="var(--ground)" />
+      <text
+        x="52"
+        y="52"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontFamily="Fredoka, sans-serif"
+        fontSize="46"
+        fontWeight="700"
+        fill="var(--teal-deep)"
+      >
+        B
+      </text>
+      <circle cx="52" cy="52" r="34" fill="none" stroke="currentColor" strokeWidth="8" />
+      <line
+        x1="78"
+        y1="78"
+        x2="102"
+        y2="102"
+        stroke="currentColor"
+        strokeWidth="12"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}

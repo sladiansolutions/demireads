@@ -8,12 +8,20 @@ import type { ReactElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { SettingsProvider } from '../app/settings';
+import { MediaProvider } from '../app/media';
+import { ProgressProvider } from '../app/progress';
 import Home from './Home/Home';
 import LetterGarden from './LetterGarden/LetterGarden';
 import FamilyBook from './FamilyBook/FamilyBook';
 
 function render(node: ReactElement): string {
-  return renderToStaticMarkup(<SettingsProvider>{node}</SettingsProvider>);
+  return renderToStaticMarkup(
+    <SettingsProvider>
+      <ProgressProvider>
+        <MediaProvider>{node}</MediaProvider>
+      </ProgressProvider>
+    </SettingsProvider>,
+  );
 }
 
 describe('Home', () => {
@@ -23,14 +31,14 @@ describe('Home', () => {
     expect(html).toContain('Hi, Sebastian!');
   });
 
-  it('shows four tiles, all lit now that every screen exists', () => {
-    expect(html.match(/class="tile"/g)).toHaveLength(4);
+  it('shows five tiles, all lit now that every screen exists', () => {
+    expect(html.match(/class="tile"/g)).toHaveLength(5);
     expect(html).not.toContain('tile--quiet');
     expect(html).not.toContain('Coming soon');
   });
 
-  it('gives each tile its colour from the mockup', () => {
-    for (const tone of ['tomato', 'teal', 'plum', 'sun']) {
+  it('gives each tile its colour from the mockup, with Find It in teal-deep', () => {
+    for (const tone of ['tomato', 'teal', 'plum', 'sun', 'teal-deep']) {
       expect(html).toContain(`--tile-fill:var(--${tone})`);
     }
   });
@@ -50,7 +58,7 @@ describe('Home', () => {
 describe('LetterGarden', () => {
   const html = render(<LetterGarden onHome={() => {}} />);
 
-  it('shows the name letters as the active set, capped at 7', () => {
+  it('shows the seeded active set: his name letters, capped at 7', () => {
     const tiles = html.match(/aria-label="Letter ([A-Z])"/g) ?? [];
     expect(tiles).toHaveLength(7);
     expect(tiles.map((t) => t.slice(-2, -1)).join('')).toBe('SEBATIN');

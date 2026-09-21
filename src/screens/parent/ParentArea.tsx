@@ -18,7 +18,12 @@ function megabytes(bytes: number): string {
  * SPEC 3.8. Reached only through the parent gate; leaving needs no gate.
  * Manual override and JSON export are phase 4 and 5.
  */
-export default function ParentArea({ onBack }: { onBack: () => void }) {
+interface ParentAreaProps {
+  onBack: () => void;
+  onWall: () => void;
+}
+
+export default function ParentArea({ onBack, onWall }: ParentAreaProps) {
   const settings = useSettings();
   const update = useUpdateSettings();
   const { unlock } = useSession();
@@ -137,7 +142,12 @@ export default function ParentArea({ onBack }: { onBack: () => void }) {
           </section>
 
           <section className="parent__card">
-            <h2 className="parent__cardTitle">Letter progress</h2>
+            <div className="parent__cardHead">
+              <h2 className="parent__cardTitle">Letter progress</h2>
+              <button type="button" className="parent__btnQuiet" onClick={onWall}>
+                See all 26
+              </button>
+            </div>
             <ProgressSummary />
           </section>
 

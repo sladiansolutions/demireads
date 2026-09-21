@@ -3,18 +3,21 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { SettingsProvider } from '../../app/settings';
 import { MediaProvider } from '../../app/media';
+import { ProgressProvider } from '../../app/progress';
 import ParentArea from './ParentArea';
 
 function render(node: ReactElement): string {
   return renderToStaticMarkup(
     <SettingsProvider>
-      <MediaProvider>{node}</MediaProvider>
+      <ProgressProvider>
+        <MediaProvider>{node}</MediaProvider>
+      </ProgressProvider>
     </SettingsProvider>,
   );
 }
 
 describe('ParentArea', () => {
-  const html = render(<ParentArea onBack={() => {}} />);
+  const html = render(<ParentArea onBack={() => {}} onWall={() => {}} />);
 
   it('renders without throwing', () => {
     expect(html).toContain('Parent area');
@@ -40,13 +43,7 @@ describe('ParentArea', () => {
 });
 
 describe('the per-letter word field', () => {
-  const html = renderToStaticMarkup(
-    <SettingsProvider>
-      <MediaProvider>
-        <ParentArea onBack={() => {}} />
-      </MediaProvider>
-    </SettingsProvider>,
-  );
+  const html = render(<ParentArea onBack={() => {}} onWall={() => {}} />);
 
   it('appears once per letter and nowhere else', () => {
     expect(html.match(/class="parent__wordInput"/g)).toHaveLength(26);

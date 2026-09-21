@@ -26,7 +26,8 @@
   --on-plum: var(--on-color);
 
   /* Supporting */
-  --teal-deep: #0F5554;     /* pressed/active teal, links */
+  --teal-deep: #0F5554;     /* pressed/active teal, links, the Find It tile */
+  --on-teal-deep: var(--on-color);
   --line: #D8D0C0;          /* borders, dividers */
   --line-soft: #E4DDCE;
   --sun-soft: #F4E9C9;      /* lit-but-quiet fills */

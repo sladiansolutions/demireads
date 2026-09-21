@@ -338,3 +338,10 @@
   height: 22px;
   accent-color: var(--teal);
 }
+
+.parent__cardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}

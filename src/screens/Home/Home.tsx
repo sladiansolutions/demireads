@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import BigTile from '../../components/BigTile';
 import ParentGate from '../../components/ParentGate';
-import { BookGlyph, DuckGlyph, NotesGlyph, SunIcon } from '../../components/icons';
+import { BookGlyph, DuckGlyph, FindGlyph, NotesGlyph, SunIcon } from '../../components/icons';
 import { useSettings } from '../../app/settings';
 import { isBuilt, type Route } from '../../app/routes';
 import { provisionalActiveSet } from '../../engine/letterSequence';
@@ -11,8 +11,12 @@ import './Home.css';
 
 interface Tile {
   route: Route;
-  /** The color from the mockup, used once the screen exists. */
-  tone: TileColor;
+  /**
+   * The colour from the mockup, used once the screen exists. Find It has no
+   * mockup, so it takes teal-deep: the one token in the palette that is not
+   * already a tile.
+   */
+  tone: TileColor | 'teal-deep';
   label: string;
   ariaLabel: string;
   glyph: (firstLetter: string) => ReactNode;
@@ -46,6 +50,13 @@ const TILES: readonly Tile[] = [
     label: 'A to Z',
     ariaLabel: 'A to Z song',
     glyph: () => <NotesGlyph />,
+  },
+  {
+    route: 'find',
+    tone: 'teal-deep',
+    label: 'Find It',
+    ariaLabel: 'Find the letter',
+    glyph: () => <FindGlyph />,
   },
 ];
 

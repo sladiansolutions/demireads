@@ -4,10 +4,13 @@ import LetterGarden from '../screens/LetterGarden/LetterGarden';
 import FamilyBook from '../screens/FamilyBook/FamilyBook';
 import CountDucks from '../screens/CountDucks/CountDucks';
 import AlphabetSong from '../screens/AlphabetSong/AlphabetSong';
+import FindIt from '../screens/FindIt/FindIt';
 import Goodnight from '../screens/Goodnight/Goodnight';
 import ParentArea from '../screens/parent/ParentArea';
+import LetterWall from '../screens/parent/LetterWall';
 import { SettingsProvider, useSettingsLoaded } from './settings';
 import { MediaProvider } from './media';
+import { ProgressProvider } from './progress';
 import { SessionProvider, useSession } from './session';
 import { warmUpSpeech } from '../audio/speech';
 import { requestPersistentStorage } from '../storage/persist';
@@ -24,7 +27,7 @@ function Screens() {
   const { locked, noteInteraction, unlock } = useSession();
 
   // SPEC 8: ask the browser to keep our data before there is any to lose.
-  // Photos and clips are the family's only copy until export lands.
+  // Photos and clips are the family's only copy until it is exported.
   useEffect(() => {
     void requestPersistentStorage();
   }, []);
@@ -41,10 +44,11 @@ function Screens() {
   if (!loaded) return <div className="app-loading" />;
 
   const goHome = () => setRoute('home');
+  const isParentSide = route === 'parent' || route === 'wall';
 
   // Passing the gate from Goodnight both ends the lock and lands the parent
   // somewhere useful (SPEC 3.7, 3.8).
-  if (locked && route !== 'parent') {
+  if (locked && !isParentSide) {
     return (
       <Goodnight
         onParent={() => {
@@ -55,7 +59,8 @@ function Screens() {
     );
   }
 
-  if (route === 'parent') return <ParentArea onBack={goHome} />;
+  if (route === 'parent') return <ParentArea onBack={goHome} onWall={() => setRoute('wall')} />;
+  if (route === 'wall') return <LetterWall onBack={() => setRoute('parent')} />;
 
   // Any touch on the child side starts the session clock; begin() is
   // idempotent, so repeating it costs nothing.
@@ -65,6 +70,7 @@ function Screens() {
       {route === 'book' && <FamilyBook onHome={goHome} />}
       {route === 'numbers' && <CountDucks onHome={goHome} />}
       {route === 'song' && <AlphabetSong onHome={goHome} />}
+      {route === 'find' && <FindIt onHome={goHome} />}
       {route === 'home' && <Home onGo={setRoute} />}
     </div>
   );
@@ -74,9 +80,11 @@ export default function App() {
   return (
     <SettingsProvider>
       <SessionProvider>
-        <MediaProvider>
-          <Screens />
-        </MediaProvider>
+        <ProgressProvider>
+          <MediaProvider>
+            <Screens />
+          </MediaProvider>
+        </ProgressProvider>
       </SessionProvider>
     </SettingsProvider>
   );

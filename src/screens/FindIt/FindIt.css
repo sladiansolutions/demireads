@@ -1,0 +1,95 @@
+.find {
+  gap: 24px;
+}
+
+.find__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.find__prompt {
+  font-family: var(--font-display);
+  font-size: 54px;
+  font-weight: 700;
+  text-align: center;
+  flex-shrink: 0;
+  min-height: 1.2em;
+}
+
+.find__prompt--cheer {
+  color: var(--teal);
+}
+
+.find__choices {
+  flex-grow: 1;
+  display: grid;
+  gap: 32px;
+  align-content: center;
+  min-height: 0;
+}
+
+/* Two or three choices sit in one row; four go two by two, so every tile
+   stays far larger than the 120px floor. */
+.find__choices[data-count='2'] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.find__choices[data-count='3'] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.find__choices[data-count='4'] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.find__tile {
+  min-width: var(--touch-child);
+  min-height: var(--touch-child);
+  height: 100%;
+  border-radius: var(--radius-tile);
+  font-family: var(--font-display);
+  font-size: 160px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform var(--tap-in) var(--ease-tap), box-shadow 200ms var(--ease-tap);
+}
+
+.find__tile:active {
+  transform: scale(0.97);
+}
+
+/* The celebration: a short bounce and a ring. Nothing marks a wrong tile. */
+@keyframes find-cheer {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.08) rotate(-1.5deg); }
+  70% { transform: scale(1.02) rotate(1deg); }
+  100% { transform: scale(1); }
+}
+
+.find__tile--cheer {
+  animation: find-cheer 600ms var(--ease-tap);
+  box-shadow: 0 0 0 10px var(--sun);
+}
+
+/* After a miss: here is the one that was asked for. Calm, not corrective. */
+@keyframes find-show {
+  0%, 100% { box-shadow: 0 0 0 0 var(--ink); }
+  50% { box-shadow: 0 0 0 10px var(--ink); }
+}
+
+.find__tile--show {
+  animation: find-show 1200ms var(--ease-tap) 2;
+}
+
+.find__empty {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-muted);
+  font-size: 20px;
+  text-align: center;
+}

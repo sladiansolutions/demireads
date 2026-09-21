@@ -31,21 +31,32 @@ export async function loadProgress(): Promise<Record<string, LetterProgress>> {
   return byLetter;
 }
 
-/** Letter Garden taps and Family Book pages are exposures, never evidence. */
-export async function recordExposure(letter: string): Promise<void> {
-  if (!hasStorage()) return;
-  try {
-    const database = await db();
-    const existing = (await database.get('letters', letter)) ?? newProgress(letter);
-    await database.put('letters', { ...existing, exposures: existing.exposures + 1 });
-  } catch {
-    // An exposure count is not worth interrupting a two-year-old for.
-  }
-}
-
 export const STATE_LABELS: Record<LetterState, string> = {
   0: 'Not started',
   1: 'New',
   2: 'Learning',
   3: 'Knows it',
 };
+
+/** Write one letter's record. */
+export async function putProgress(record: LetterProgress): Promise<void> {
+  if (!hasStorage()) return;
+  try {
+    const database = await db();
+    await database.put('letters', record);
+  } catch {
+    // Progress is worth keeping, but not worth an error on a child's screen.
+  }
+}
+
+/** Write the whole map, for bootstrap, daily introductions and session resets. */
+export async function putAllProgress(progress: Record<string, LetterProgress>): Promise<void> {
+  if (!hasStorage()) return;
+  try {
+    const database = await db();
+    const tx = database.transaction('letters', 'readwrite');
+    await Promise.all([...Object.values(progress).map((record) => tx.store.put(record)), tx.done]);
+  } catch {
+    // Same: the next launch will simply reintroduce what was lost.
+  }
+}

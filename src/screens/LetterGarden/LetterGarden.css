@@ -84,3 +84,13 @@
 .garden__tile--selected {
   box-shadow: 0 0 0 8px var(--ink);
 }
+
+/* Only seen if a parent has set every letter back to Not started. */
+.garden__empty {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-muted);
+  font-size: 20px;
+}
