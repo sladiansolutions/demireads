@@ -20,7 +20,7 @@ const SWIPE_MIN_PX = 40;
  * choice: his own letters first, or plain A to Z.
  */
 export default function FamilyBook({ onHome }: { onHome: () => void }) {
-  const { childName, familyNames, bookOrder } = useSettings();
+  const { childName, familyNames, bookOrder, letterWords } = useSettings();
   const { photoUrl } = useMedia();
 
   const sequence = useMemo(
@@ -33,7 +33,7 @@ export default function FamilyBook({ onHome }: { onHome: () => void }) {
   const touchStartX = useRef<number | null>(null);
 
   const letter = sequence[page] ?? 'A';
-  const word = bookWordFor(letter, childName, familyNames);
+  const word = bookWordFor(letter, childName, familyNames, letterWords);
   const { fill } = tileStyleFor(page);
 
   function goTo(next: number) {
@@ -41,7 +41,7 @@ export default function FamilyBook({ onHome }: { onHome: () => void }) {
     setDirection(next > page ? 'next' : 'back');
     setPage(wrapped);
     const nextLetter = sequence[wrapped] ?? 'A';
-    sayBookPage(nextLetter, bookWordFor(nextLetter, childName, familyNames));
+    sayBookPage(nextLetter, bookWordFor(nextLetter, childName, familyNames, letterWords));
     void recordExposure(nextLetter);
   }
 

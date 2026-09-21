@@ -38,3 +38,28 @@ describe('ParentArea', () => {
     expect(html).toContain('erases them');
   });
 });
+
+describe('the per-letter word field', () => {
+  const html = renderToStaticMarkup(
+    <SettingsProvider>
+      <MediaProvider>
+        <ParentArea onBack={() => {}} />
+      </MediaProvider>
+    </SettingsProvider>,
+  );
+
+  it('appears once per letter and nowhere else', () => {
+    expect(html.match(/class="parent__wordInput"/g)).toHaveLength(26);
+  });
+
+  it('shows the current word as a hint rather than filling the box', () => {
+    expect(html).toContain('placeholder="train"');
+    expect(html).toContain('aria-label="Word for T"');
+    // Empty value: the default is a hint, not something to delete first.
+    expect(html).toContain('aria-label="Word for T" placeholder="train" value=""');
+  });
+
+  it('is not offered for numbers or the one-off clips', () => {
+    expect(html).not.toContain('aria-label="Word for 3"');
+  });
+});

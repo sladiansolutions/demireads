@@ -304,3 +304,22 @@
   align-self: flex-start;
   padding: 0 24px;
 }
+
+/* The parent's own word for a letter, under its label. */
+.parent__wordInput {
+  margin-top: 4px;
+  width: 190px;
+  min-height: var(--touch-parent);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  background: var(--ground);
+  color: var(--ink);
+}
+
+.parent__wordInput::placeholder {
+  color: var(--ink-muted);
+  font-style: italic;
+}

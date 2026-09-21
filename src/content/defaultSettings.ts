@@ -11,4 +11,5 @@ export const DEFAULT_SETTINGS: Settings = {
   sessionMinutes: 10,
   songIntervalMs: 700,
   bookOrder: 'sequence',
+  letterWords: {},
 };

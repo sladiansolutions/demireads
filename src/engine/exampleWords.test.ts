@@ -29,3 +29,34 @@ describe('bookWordFor', () => {
     expect(bookWordFor('T', 'Sebastian')).toBe('train');
   });
 });
+
+describe('a word the parent typed', () => {
+  it('wins over the bundled default', () => {
+    expect(exampleWordsFor('T', 'Sebastian', [], { T: 'teddy' })).toEqual(['teddy', 'train']);
+  });
+
+  it("wins over the child's own name", () => {
+    expect(exampleWordsFor('S', 'Sebastian', [], { S: 'slide' })).toEqual(['slide', 'sun']);
+  });
+
+  it('wins over a family name', () => {
+    expect(exampleWordsFor('M', 'Sebastian', ['Mummy'], { M: 'moon' })).toEqual(['moon', 'moon']);
+  });
+
+  it('is ignored when blank or only spaces, rather than showing an empty page', () => {
+    expect(exampleWordsFor('T', 'Sebastian', [], { T: '   ' })).toEqual(['train', 'tiger']);
+    expect(exampleWordsFor('T', 'Sebastian', [], { T: '' })).toEqual(['train', 'tiger']);
+  });
+
+  it('is trimmed, so a stray space does not break the illustration lookup', () => {
+    expect(exampleWordsFor('B', 'Sebastian', [], { B: ' ball ' })).toEqual(['ball', 'ball']);
+  });
+
+  it('only affects its own letter', () => {
+    expect(exampleWordsFor('A', 'Sebastian', [], { T: 'teddy' })).toEqual(['apple', 'ant']);
+  });
+
+  it('reaches the Family Book page too', () => {
+    expect(bookWordFor('T', 'Sebastian', [], { T: 'teddy' })).toBe('teddy');
+  });
+});

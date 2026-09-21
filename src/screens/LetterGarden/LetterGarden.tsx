@@ -22,7 +22,7 @@ const COPLAY_MS = 5000;
  * and there is no way to be wrong.
  */
 export default function LetterGarden({ onHome }: { onHome: () => void }) {
-  const { childName, familyNames } = useSettings();
+  const { childName, familyNames, letterWords } = useSettings();
   const { photoUrl } = useMedia();
   const activeSet = provisionalActiveSet(childName, familyNames);
 
@@ -42,7 +42,7 @@ export default function LetterGarden({ onHome }: { onHome: () => void }) {
   );
 
   const content = letterContent(selected);
-  const [word1, word2] = exampleWordsFor(selected, childName, familyNames);
+  const [word1, word2] = exampleWordsFor(selected, childName, familyNames, letterWords);
 
   function pick(letter: string) {
     setSelected(letter);
@@ -50,13 +50,13 @@ export default function LetterGarden({ onHome }: { onHome: () => void }) {
     window.clearTimeout(bounceTimer.current);
     bounceTimer.current = window.setTimeout(() => setBouncing(null), BOUNCE_MS);
 
-    sayLetter(letter, exampleWordsFor(letter, childName, familyNames)[0]);
+    sayLetter(letter, exampleWordsFor(letter, childName, familyNames, letterWords)[0]);
     void recordExposure(letter);
 
     taps.current += 1;
     if (taps.current % COPLAY_EVERY === 0) {
       const { soundLabel } = letterContent(letter);
-      const [firstWord] = exampleWordsFor(letter, childName, familyNames);
+      const [firstWord] = exampleWordsFor(letter, childName, familyNames, letterWords);
       setCoplay(coplayPrompt(taps.current / COPLAY_EVERY - 1, letter, soundLabel, firstWord));
       window.clearTimeout(coplayTimer.current);
       coplayTimer.current = window.setTimeout(() => setCoplay(null), COPLAY_MS);

@@ -15,6 +15,12 @@ export interface Settings {
   songIntervalMs: number;
   /** Family Book page order: the letter sequence, or plain A to Z. */
   bookOrder: 'sequence' | 'alphabet';
+  /**
+   * Parent's own word for a letter: "A" -> "teddy". Wins over family names
+   * and the bundled defaults, so a photo of what is actually in the house
+   * can carry the right word.
+   */
+  letterWords: Record<string, string>;
 }
 
 export type LetterState = 0 | 1 | 2 | 3;
