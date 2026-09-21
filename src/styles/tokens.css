@@ -1,0 +1,68 @@
+/* Design tokens. Taken from docs/design-reference/. Defined once, used everywhere. */
+
+:root {
+  /* Surfaces */
+  --ground: #FBF6EC;        /* child-side background */
+  --ground-parent: #F3EEE3; /* parent-side background */
+  --night: #1E2A4A;         /* Goodnight background */
+  --sand: #EFE8DA;          /* quiet buttons, unlit tiles */
+
+  /* Ink */
+  --ink: #2B2A33;
+  --ink-muted: #6E6A62;     /* parent-side secondary text */
+  --ink-quiet: #8A857A;     /* icon-only quiet controls */
+  --on-color: #FFFFFF;      /* text on tomato, teal, plum */
+
+  /* Tile colors. Cycle in this order by item index. */
+  --tomato: #C8431F;
+  --teal: #17706F;
+  --sun: #F2C14E;
+  --plum: #5B4B9A;
+
+  /* Tile text colors, paired with the four above */
+  --on-tomato: var(--on-color);
+  --on-teal: var(--on-color);
+  --on-sun: var(--ink);
+  --on-plum: var(--on-color);
+
+  /* Supporting */
+  --teal-deep: #0F5554;     /* pressed/active teal, links */
+  --line: #D8D0C0;          /* borders, dividers */
+  --line-soft: #E4DDCE;
+  --sun-soft: #F4E9C9;      /* lit-but-quiet fills */
+  --night-soft: #9FA8C9;    /* text on --night */
+
+  /* Type */
+  --font-display: 'Fredoka', 'Nunito', system-ui, sans-serif;
+  --font-body: 'Nunito', system-ui, sans-serif;
+  --size-title: 68px;
+  --size-heading: 44px;
+  --size-tile-label: 32px;
+  --size-body: 20px;
+  --size-parent-body: 17px;
+
+  /* Space */
+  --pad-screen-y: 56px;
+  --pad-screen-x: 64px;
+  --gap-tile: 28px;
+  --gap-section: 44px;
+
+  /* Shape */
+  --radius-tile: 48px;
+  --radius-card: 24px;
+  --radius-quiet: 16px;
+
+  /* Touch targets. Child screens never go below --touch-child. */
+  --touch-child: 120px;
+  --touch-parent: 44px;
+
+  /* Motion */
+  --tap-in: 90ms;
+  --ease-tap: cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --tap-in: 1ms;
+  }
+}

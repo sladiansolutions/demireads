@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Letter Garden</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#FBF6EC}
+a{color:#17706F}a:hover{color:#0F5554}
+</style>
+</helmet>
+<div style="width: 1180px; height: 820px; box-sizing: border-box; padding: 40px 48px; display: flex; flex-direction: column; gap: 28px; background: #FBF6EC; font-family: 'Nunito', system-ui, sans-serif; color: #2B2A33;">
+<div style="display: flex; align-items: center; gap: 20px;">
+<a href="Main.dc.html" aria-label="Home" style="width: 72px; height: 72px; border-radius: 24px; background: #EFE8DA; color: #2B2A33; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path></svg>
+</a>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 36px; font-weight: 600;">Letter Garden</div>
+</div>
+<div style="display: flex; gap: 36px; flex-grow: 1;">
+<div style="width: 470px; border-radius: 44px; background: #FFFFFF; box-sizing: border-box; padding: 32px; display: flex; flex-direction: column; align-items: center; gap: 18px;">
+<div style="font-family: 'Fredoka', sans-serif; font-size: 260px; font-weight: 700; line-height: 1; color: {{cur.bg}};">{{cur.l}}</div>
+<button aria-label="Play the sound" style="display: flex; align-items: center; gap: 14px; height: 72px; padding: 0 28px; border: none; border-radius: 36px; background: #2B2A33; color: #FFFFFF; font-family: 'Fredoka', sans-serif; font-size: 30px; font-weight: 600; cursor: pointer;">
+<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9z"></path><path d="M16.5 8.5a5 5 0 0 1 0 7"></path></svg>
+<span>{{cur.l}} says {{cur.sound}}</span>
+</button>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; width: 100%;">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+<div style="width: 100%; height: 150px; border-radius: 24px; border: 3px dashed #C9C1B0; display: flex; align-items: center; justify-content: center; color: #6E6A62; font-size: 16px; font-weight: 600; text-align: center;">[PHOTO: {{cur.w1}}]</div>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 600;">{{cur.w1}}</div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+<div style="width: 100%; height: 150px; border-radius: 24px; border: 3px dashed #C9C1B0; display: flex; align-items: center; justify-content: center; color: #6E6A62; font-size: 16px; font-weight: 600; text-align: center;">[PHOTO: {{cur.w2}}]</div>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 600;">{{cur.w2}}</div>
+</div>
+</div>
+</div>
+<div style="flex-grow: 1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-content: center;">
+<sc-for list="{{letters}}" as="item" hint-placeholder-count="7">
+<button onClick="{{item.pick}}" aria-label="Letter {{item.l}}" style="height: 170px; border: none; border-radius: 36px; background: {{item.bg}}; color: {{item.fg}}; font-family: 'Fredoka', sans-serif; font-size: 120px; font-weight: 700; line-height: 1; box-shadow: {{item.ring}}; cursor: pointer;">{{item.l}}</button>
+</sc-for>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const base = [
+      { l: 'S', sound: '/s/', w1: 'Sebastian', w2: 'sun' },
+      { l: 'E', sound: '/e/', w1: 'egg', w2: 'elephant' },
+      { l: 'B', sound: '/b/', w1: 'ball', w2: 'banana' },
+      { l: 'A', sound: '/a/', w1: 'apple', w2: 'ant' },
+      { l: 'T', sound: '/t/', w1: 'train', w2: 'tiger' },
+      { l: 'I', sound: '/i/', w1: 'igloo', w2: 'insect' },
+      { l: 'N', sound: '/n/', w1: 'nose', w2: 'nest' }
+    ];
+    const colors = [['#C8431F', '#FFFFFF'], ['#17706F', '#FFFFFF'], ['#F2C14E', '#2B2A33'], ['#5B4B9A', '#FFFFFF']];
+    const picked = (this.state && this.state.picked) || 'S';
+    const letters = base.map((x, i) => ({
+      ...x,
+      bg: colors[i % 4][0],
+      fg: colors[i % 4][1],
+      ring: x.l === picked ? '0 0 0 8px #2B2A33' : 'none',
+      pick: () => this.setState({ picked: x.l })
+    }));
+    const cur = letters.find((x) => x.l === picked);
+    return { letters, cur };
+  }
+}
+</script>
+</body>
+</html>

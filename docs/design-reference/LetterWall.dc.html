@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>All 26 Letters</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F3EEE3}
+a{color:#17706F}a:hover{color:#0F5554}
+</style>
+</helmet>
+<div style="width: 1180px; height: 820px; box-sizing: border-box; padding: 40px 48px; display: flex; flex-direction: column; gap: 24px; background: #F3EEE3; font-family: 'Nunito', system-ui, sans-serif; color: #2B2A33;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<div style="display: flex; flex-direction: column; gap: 4px;">
+<h1 style="margin: 0; font-family: 'Fredoka', sans-serif; font-size: 40px; font-weight: 600;">All 26 letters</h1>
+<div style="font-size: 16px; color: #5E5A52; font-weight: 600;">Sample data, to show the layout</div>
+</div>
+<a href="ParentArea.dc.html" style="font-size: 18px; font-weight: 700; text-decoration: none; padding: 12px 20px; border-radius: 24px; background: #FFFFFF;">Back to parent area</a>
+</div>
+<div style="display: flex; gap: 28px; flex-wrap: wrap;">
+<div style="display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700;"><div style="width: 22px; height: 22px; border-radius: 6px; background: #17706F;"></div>Knows it</div>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700;"><div style="width: 22px; height: 22px; border-radius: 6px; background: #F2C14E;"></div>Learning</div>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700;"><div style="width: 22px; height: 22px; border-radius: 6px; background: #FFFFFF; border: 3px solid #C8431F; box-sizing: border-box;"></div>New (in the garden now)</div>
+<div style="display: flex; align-items: center; gap: 10px; font-size: 16px; font-weight: 700;"><div style="width: 22px; height: 22px; border-radius: 6px; background: #E4DDCE;"></div>Not started yet</div>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; padding: 28px; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 14px; align-content: start;">
+<sc-for list="{{tiles}}" as="item" hint-placeholder-count="26">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+<div style="width: 100%; height: 92px; box-sizing: border-box; border-radius: 20px; background: {{item.bg}}; color: {{item.fg}}; border: {{item.border}}; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 56px; font-weight: 700; line-height: 1;">{{item.l}}</div>
+<div style="font-size: 13px; font-weight: 700; color: #5E5A52;">{{item.status}}</div>
+</div>
+</sc-for>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; padding: 22px 28px; display: flex; align-items: center; gap: 18px;">
+<div style="font-size: 18px; font-weight: 700;">Up next:</div>
+<div style="font-size: 18px;">D for Daddy, M for Mommy, then letters from other family names you add.</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const knows = ['S', 'B'];
+    const learning = ['E', 'A', 'T'];
+    const fresh = ['I', 'N'];
+    const tiles = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((l) => {
+      if (knows.includes(l)) return { l, bg: '#17706F', fg: '#FFFFFF', border: 'none', status: 'Knows it' };
+      if (learning.includes(l)) return { l, bg: '#F2C14E', fg: '#2B2A33', border: 'none', status: 'Learning' };
+      if (fresh.includes(l)) return { l, bg: '#FFFFFF', fg: '#C8431F', border: '4px solid #C8431F', status: 'New' };
+      return { l, bg: '#E4DDCE', fg: '#6E6A62', border: 'none', status: 'Not yet' };
+    });
+    return { tiles };
+  }
+}
+</script>
+</body>
+</html>

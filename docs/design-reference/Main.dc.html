@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#FBF6EC}
+a{color:#17706F}a:hover{color:#0F5554}
+</style>
+</helmet>
+<div style="width: 1180px; height: 820px; box-sizing: border-box; padding: 56px 64px; display: flex; flex-direction: column; gap: 44px; background: #FBF6EC; font-family: 'Nunito', system-ui, sans-serif; color: #2B2A33;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<div style="display: flex; align-items: center; gap: 24px;">
+<svg width="84" height="84" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="42" r="20" fill="#F2C14E"></circle><g stroke="#F2C14E" stroke-width="6" stroke-linecap="round"><line x1="42" y1="6" x2="42" y2="14"></line><line x1="42" y1="70" x2="42" y2="78"></line><line x1="6" y1="42" x2="14" y2="42"></line><line x1="70" y1="42" x2="78" y2="42"></line><line x1="17" y1="17" x2="22" y2="22"></line><line x1="62" y1="62" x2="67" y2="67"></line><line x1="67" y1="17" x2="62" y2="22"></line><line x1="17" y1="67" x2="22" y2="62"></line></g></svg>
+<h1 style="margin: 0; font-family: 'Fredoka', 'Nunito', sans-serif; font-size: 68px; font-weight: 700; letter-spacing: -1px;">Hi, Sebastian!</h1>
+</div>
+<a href="ParentArea.dc.html" aria-label="Parent area. Hold with two fingers to open." style="width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; color: #8A857A; background: #EFE8DA; text-decoration: none;">
+<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; flex-grow: 1;">
+<a href="LetterGarden.dc.html" aria-label="Letter Garden" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; border-radius: 48px; background: #C8431F; color: #FFFFFF; text-decoration: none;">
+<div style="width: 180px; height: 180px; border-radius: 50%; background: #FBF6EC; color: #C8431F; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 140px; font-weight: 700; line-height: 1;">S</div>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 600;">Letters</div>
+</a>
+<a href="FamilyBook.dc.html" aria-label="Family Alphabet Book" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; border-radius: 48px; background: #17706F; color: #FFFFFF; text-decoration: none;">
+<svg width="190" height="190" viewBox="0 0 120 120" aria-hidden="true"><rect x="12" y="20" width="96" height="80" rx="12" fill="#FBF6EC"></rect><circle cx="82" cy="44" r="10" fill="#F2C14E"></circle><path d="M20 90 L48 56 L68 78 L80 66 L100 90 Z" fill="#17706F"></path></svg>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 600;">Family Book</div>
+</a>
+<a href="CountDucks.dc.html" aria-label="Count the Ducks" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; border-radius: 48px; background: #5B4B9A; color: #FFFFFF; text-decoration: none;">
+<svg width="200" height="166" viewBox="0 0 120 100" aria-hidden="true"><ellipse cx="55" cy="68" rx="42" ry="26" fill="#F2C14E"></ellipse><circle cx="88" cy="38" r="20" fill="#F2C14E"></circle><path d="M104 36 L118 42 L104 48 Z" fill="#E07A2E"></path><circle cx="92" cy="33" r="3.5" fill="#2B2A33"></circle><path d="M30 62 Q48 50 62 64" fill="none" stroke="#D9A632" stroke-width="4" stroke-linecap="round"></path></svg>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 600;">1 2 3</div>
+</a>
+<a href="AlphabetSong.dc.html" aria-label="A to Z song" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; border-radius: 48px; background: #F2C14E; color: #2B2A33; text-decoration: none;">
+<svg width="170" height="170" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="17" cy="16" r="3"></circle></svg>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 32px; font-weight: 600;">A to Z</div>
+</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

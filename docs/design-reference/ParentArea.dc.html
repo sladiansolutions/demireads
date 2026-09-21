@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Parent Area</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F3EEE3}
+a{color:#17706F}a:hover{color:#0F5554}
+</style>
+</helmet>
+<div style="width: 1180px; height: 820px; box-sizing: border-box; padding: 40px 48px; display: flex; flex-direction: column; gap: 24px; background: #F3EEE3; font-family: 'Nunito', system-ui, sans-serif; color: #2B2A33;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<h1 style="margin: 0; font-family: 'Fredoka', sans-serif; font-size: 40px; font-weight: 600;">Parent area</h1>
+<a href="Main.dc.html" style="font-size: 18px; font-weight: 700; text-decoration: none; padding: 12px 20px; border-radius: 24px; background: #FFFFFF;">Back to Sebastian's side</a>
+</div>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; flex-grow: 1;">
+<div style="background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 16px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 700;">Session length</h2>
+<label for="minutes" style="font-size: 16px; color: #5E5A52;">Minutes before the goodnight screen</label>
+<input id="minutes" type="range" min="5" max="20" step="5" value="10" style="width: 100%; accent-color: #17706F;">
+<div style="font-size: 18px; font-weight: 700;">10 minutes</div>
+<div style="display: flex; align-items: center; justify-content: space-between; margin-top: 12px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 700;">Letter progress <span style="font-weight: 600; color: #6E6A62; font-size: 16px;">(sample data)</span></h2>
+<a href="LetterWall.dc.html" style="font-size: 16px; font-weight: 700; text-decoration: none; padding: 10px 16px; border-radius: 20px; background: #EFE8DA; color: #0F5554;">See all 26</a>
+</div>
+<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display: flex; align-items: center; gap: 12px;"><div style="width: 110px; font-size: 16px; font-weight: 700;">New</div><div style="display: flex; gap: 8px;"><div style="width: 44px; height: 44px; border-radius: 12px; background: #EFE8DA; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700;">I</div><div style="width: 44px; height: 44px; border-radius: 12px; background: #EFE8DA; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700;">N</div></div></div>
+<div style="display: flex; align-items: center; gap: 12px;"><div style="width: 110px; font-size: 16px; font-weight: 700;">Learning</div><div style="display: flex; gap: 8px;"><div style="width: 44px; height: 44px; border-radius: 12px; background: #F2C14E; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700;">E</div><div style="width: 44px; height: 44px; border-radius: 12px; background: #F2C14E; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700;">A</div><div style="width: 44px; height: 44px; border-radius: 12px; background: #F2C14E; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700;">T</div></div></div>
+<div style="display: flex; align-items: center; gap: 12px;"><div style="width: 110px; font-size: 16px; font-weight: 700;">Knows it</div><div style="display: flex; gap: 8px;"><div style="width: 44px; height: 44px; border-radius: 12px; background: #17706F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700;">S</div><div style="width: 44px; height: 44px; border-radius: 12px; background: #17706F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 700;">B</div></div></div>
+</div>
+</div>
+<div style="background: #FFFFFF; border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 14px;">
+<h2 style="margin: 0; font-size: 22px; font-weight: 700;">Photos and voices</h2>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #EFE8DA;"><div style="font-size: 17px; font-weight: 600;">S is for Sebastian</div><div style="font-size: 15px; font-weight: 700; color: #17706F;">Photo and voice added</div></div>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #EFE8DA;"><div style="font-size: 17px; font-weight: 600;">B is for ball</div><button style="height: 44px; padding: 0 18px; border: none; border-radius: 22px; background: #2B2A33; color: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer;">Add voice clip</button></div>
+<div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #EFE8DA;"><div style="font-size: 17px; font-weight: 600;">Counting voice (1, 2, 3)</div><button style="height: 44px; padding: 0 18px; border: none; border-radius: 22px; background: #2B2A33; color: #FFFFFF; font-family: 'Nunito', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer;">Add voice clip</button></div>
+<button style="height: 52px; border: 2px dashed #C9C1B0; border-radius: 16px; background: #FBF6EC; color: #2B2A33; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer;">Add a family photo</button>
+<label for="notes" style="font-size: 18px; font-weight: 700; margin-top: 10px;">Notes: what did he do off the screen?</label>
+<textarea id="notes" rows="4" placeholder="e.g. Pointed to S on the cereal box" style="border: 1px solid #D8D0C0; border-radius: 14px; padding: 14px; font-family: 'Nunito', sans-serif; font-size: 16px; resize: none; background: #FBF6EC; color: #2B2A33;"></textarea>
+<button style="align-self: flex-start; height: 48px; padding: 0 22px; border: 2px solid #2B2A33; border-radius: 24px; background: #FFFFFF; color: #2B2A33; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 700; cursor: pointer;">Export progress</button>
+</div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {};
+  }
+}
+</script>
+</body>
+</html>

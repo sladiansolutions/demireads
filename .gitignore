@@ -1,0 +1,33 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dev-dist/
+
+# local family media — never commit photos or voice clips
+media/
+local-media/
+family-media/
+*.mp3
+*.m4a
+*.wav
+*.ogg
+*.webm
+
+# editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# misc
+*.local
+.env
+.env.*
+
+# the starter kit archive, already unpacked into docs/
+sebastian-abc-claude-code.zip
+
+# typescript incremental build info
+*.tsbuildinfo

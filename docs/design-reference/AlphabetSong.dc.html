@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A to Z Song</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#FBF6EC}
+a{color:#17706F}a:hover{color:#0F5554}
+</style>
+</helmet>
+<div style="width: 1180px; height: 820px; box-sizing: border-box; padding: 40px 48px; display: flex; flex-direction: column; gap: 28px; background: #FBF6EC; font-family: 'Nunito', system-ui, sans-serif; color: #2B2A33;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<div style="display: flex; align-items: center; gap: 20px;">
+<a href="Main.dc.html" aria-label="Home" style="width: 72px; height: 72px; border-radius: 24px; background: #EFE8DA; color: #2B2A33; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path></svg>
+</a>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 36px; font-weight: 600;">A to Z Song</div>
+</div>
+<button onClick="{{toggle}}" aria-label="{{buttonLabel}}" style="width: 96px; height: 96px; border: none; border-radius: 50%; background: #2B2A33; color: #FFFFFF; display: flex; align-items: center; justify-content: center; cursor: pointer;">
+<sc-if value="{{playing}}" hint-placeholder-val="{{false}}">
+<svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg>
+</sc-if>
+<sc-if value="{{notPlaying}}" hint-placeholder-val="{{true}}">
+<svg width="44" height="44" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"></path></svg>
+</sc-if>
+</button>
+</div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 18px; flex-grow: 1; align-content: center;">
+<sc-for list="{{tiles}}" as="item" hint-placeholder-count="26">
+<div style="height: 128px; border-radius: 30px; background: {{item.bg}}; color: {{item.fg}}; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 84px; font-weight: 700; line-height: 1; transform: {{item.scale}}; box-shadow: {{item.ring}}; transition: transform 0.2s ease, background 0.2s ease;">{{item.l}}</div>
+</sc-for>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":820}}'>
+class Component extends DCLogic {
+  componentWillUnmount() {
+    if (this.timer) clearInterval(this.timer);
+  }
+  renderVals() {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const colors = [['#C8431F', '#FFFFFF'], ['#17706F', '#FFFFFF'], ['#F2C14E', '#2B2A33'], ['#5B4B9A', '#FFFFFF']];
+    const idx = this.state && typeof this.state.idx === 'number' ? this.state.idx : -1;
+    const playing = !!(this.state && this.state.playing);
+    const tiles = letters.map((l, i) => {
+      const lit = i <= idx;
+      const now = i === idx;
+      return {
+        l,
+        bg: lit ? colors[i % 4][0] : '#EFE8DA',
+        fg: lit ? colors[i % 4][1] : '#8A857A',
+        scale: now ? 'scale(1.18)' : 'none',
+        ring: now ? '0 0 0 6px #2B2A33' : 'none'
+      };
+    });
+    const toggle = () => {
+      if (playing) {
+        clearInterval(this.timer);
+        this.setState({ playing: false });
+        return;
+      }
+      const start = idx >= 25 ? -1 : idx;
+      this.setState({ playing: true, idx: start });
+      this.timer = setInterval(() => {
+        const cur = typeof this.state.idx === 'number' ? this.state.idx : -1;
+        if (cur >= 25) {
+          clearInterval(this.timer);
+          this.setState({ playing: false });
+        } else {
+          this.setState({ idx: cur + 1 });
+        }
+      }, 700);
+    };
+    return {
+      tiles,
+      toggle,
+      playing,
+      notPlaying: !playing,
+      buttonLabel: playing ? 'Pause song' : 'Play song'
+    };
+  }
+}
+</script>
+</body>
+</html>

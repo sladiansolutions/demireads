@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Count the Ducks</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&amp;family=Nunito:wght@400;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#FBF6EC}
+a{color:#17706F}a:hover{color:#0F5554}
+</style>
+</helmet>
+<div style="width: 1180px; height: 820px; box-sizing: border-box; padding: 40px 48px; display: flex; flex-direction: column; gap: 24px; background: #FBF6EC; font-family: 'Nunito', system-ui, sans-serif; color: #2B2A33;">
+<div style="display: flex; align-items: center; justify-content: space-between;">
+<div style="display: flex; align-items: center; gap: 20px;">
+<a href="Main.dc.html" aria-label="Home" style="width: 72px; height: 72px; border-radius: 24px; background: #EFE8DA; color: #2B2A33; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+<svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7"></path><path d="M5 10v10h14V10"></path></svg>
+</a>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 36px; font-weight: 600;">Count the Ducks</div>
+</div>
+<button onClick="{{reset}}" aria-label="Count again" style="height: 72px; padding: 0 28px; border: none; border-radius: 36px; background: #EFE8DA; color: #2B2A33; font-family: 'Fredoka', sans-serif; font-size: 26px; font-weight: 600; cursor: pointer;">Again</button>
+</div>
+<div style="display: flex; align-items: center; justify-content: center; gap: 32px; height: 150px;">
+<div style="font-family: 'Fredoka', sans-serif; font-size: 140px; font-weight: 700; line-height: 1; color: #5B4B9A; min-width: 100px; text-align: center;">{{numeral}}</div>
+<div style="font-family: 'Fredoka', sans-serif; font-size: 64px; font-weight: 700;">{{say}}</div>
+</div>
+<div style="flex-grow: 1; border-radius: 48px; background: #BFE3DF; display: flex; align-items: center; justify-content: center; gap: 56px; padding: 0 40px;">
+<sc-for list="{{ducks}}" as="item" hint-placeholder-count="3">
+<div style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+<div style="width: 76px; height: 76px; border-radius: 50%; background: #5B4B9A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Fredoka', sans-serif; font-size: 44px; font-weight: 700; visibility: {{item.vis}};">{{item.num}}</div>
+<button onClick="{{item.tap}}" aria-label="Duck" style="border: none; background: transparent; padding: 8px; cursor: pointer; transform: {{item.lift}}; transition: transform 0.25s ease;">
+<svg width="220" height="183" viewBox="0 0 120 100" aria-hidden="true"><ellipse cx="55" cy="68" rx="42" ry="26" fill="#F2C14E"></ellipse><circle cx="88" cy="38" r="20" fill="#F2C14E"></circle><path d="M104 36 L118 42 L104 48 Z" fill="#E07A2E"></path><circle cx="92" cy="33" r="3.5" fill="#2B2A33"></circle><path d="M30 62 Q48 50 62 64" fill="none" stroke="#D9A632" stroke-width="4" stroke-linecap="round"></path></svg>
+</button>
+</div>
+</sc-for>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":820}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const order = (this.state && this.state.order) || [];
+    const total = 3;
+    const words = ['Tap a duck!', 'One!', 'Two!', 'Three ducks!'];
+    const ducks = [0, 1, 2].map((i) => {
+      const pos = order.indexOf(i);
+      const counted = pos !== -1;
+      return {
+        num: counted ? String(pos + 1) : '',
+        vis: counted ? 'visible' : 'hidden',
+        lift: counted ? 'translateY(-18px) scale(1.06)' : 'none',
+        tap: () => {
+          if (!counted) this.setState({ order: order.concat([i]) });
+        }
+      };
+    });
+    const n = order.length;
+    return {
+      ducks,
+      numeral: n === 0 ? '' : String(n),
+      say: n === total ? words[3] : words[n],
+      reset: () => this.setState({ order: [] })
+    };
+  }
+}
+</script>
+</body>
+</html>
