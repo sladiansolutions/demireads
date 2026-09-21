@@ -70,7 +70,22 @@
   right: 24px;
 }
 
+.night__gate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .night__gate .quiet-btn--lock {
-  background: transparent;
-  color: #384667;
+  background: rgba(251, 246, 236, 0.12);
+  color: var(--night-soft);
+}
+
+/* Parent-facing, and he cannot read it (rule 4). */
+.night__hint {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--night-soft);
+  max-width: 190px;
+  text-align: right;
 }

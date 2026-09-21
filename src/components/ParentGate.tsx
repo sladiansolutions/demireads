@@ -6,12 +6,17 @@ const HOLD_MS = 3000;
 const RING_RADIUS = 26;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
-/** A device with no touch points is not the child's tablet, so a press and
- *  hold is safe there. SPEC 4 asks for this in development; it also keeps a
- *  deployed build usable from a desktop browser. */
-function pressAndHoldAllowed(): boolean {
-  if (import.meta.env.DEV) return true;
-  return typeof navigator !== 'undefined' && (navigator.maxTouchPoints ?? 0) === 0;
+/**
+ * A mouse press and hold also opens the gate. SPEC 4 asks for this as a
+ * development convenience, but it matters on real hardware too: a touchscreen
+ * laptop, or a tablet with a mouse attached, reports touch points, and a
+ * trackpad never generates the two-finger touch events the gate needs.
+ *
+ * Keyed on the pointer being a mouse rather than on the device having no
+ * touch, because a two-year-old with a tablet has no mouse.
+ */
+function isDeliberatePointer(pointerType: string): boolean {
+  return pointerType === 'mouse' || import.meta.env.DEV;
 }
 
 /**
@@ -86,19 +91,21 @@ export default function ParentGate({ onOpen }: { onOpen: () => void }) {
     if (event.touches.length >= 2) start();
   }
 
-  const pressAndHold = pressAndHoldAllowed()
-    ? { onMouseDown: start, onMouseUp: cancel, onMouseLeave: cancel }
-    : {};
-
   return (
     <button
       type="button"
       className="quiet-btn quiet-btn--lock gate"
       aria-label="Parent area. Hold with two fingers for three seconds."
-      title="Hold with two fingers for three seconds"
+      title="Hold with two fingers for three seconds, or press and hold with a mouse"
       onTouchStart={onTouchStart}
+      onPointerDown={(event) => {
+        if (isDeliberatePointer(event.pointerType)) start();
+      }}
+      // Lifting or leaving ends the hold, whatever was holding it.
+      onPointerUp={cancel}
+      onPointerLeave={cancel}
+      onPointerCancel={cancel}
       onContextMenu={(event) => event.preventDefault()}
-      {...pressAndHold}
     >
       <LockIcon />
       {progress > 0 && (

@@ -54,8 +54,10 @@ export default function Goodnight({ onParent }: { onParent: () => void }) {
         ))}
       </div>
 
-      {/* The way out, for a parent only (SPEC 3.7). */}
+      {/* The way out, for a parent only (SPEC 3.7). The line is for whoever
+          is holding the tablet; he cannot read it. */}
       <div className="night__gate">
+        <span className="night__hint">Hold two fingers here for 3 seconds</span>
         <ParentGate onOpen={onParent} />
       </div>
     </div>
