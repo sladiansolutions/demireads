@@ -5,6 +5,8 @@ import { LETTERS } from '../../content/letters';
 import { bookWordFor } from '../../engine/exampleWords';
 import { deleteMedia, saveAudio, savePhoto } from '../../storage/media';
 import { mediaId } from '../../storage/mediaKeys';
+import { playClip } from '../../audio/player';
+import VoiceRecorder from './VoiceRecorder';
 import type { MediaTarget } from '../../storage/db';
 
 interface Pending {
@@ -43,6 +45,16 @@ export default function MediaLibrary() {
     try {
       if (job.kind === 'photo') await savePhoto(job.target, file, job.label);
       else await saveAudio(job.target, file, job.label);
+      await reload();
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function saveRecording(target: MediaTarget, label: string, blob: Blob) {
+    setBusy(mediaId('audio', target));
+    try {
+      await saveAudio(target, blob, label);
       await reload();
     } finally {
       setBusy(null);
@@ -90,11 +102,17 @@ export default function MediaLibrary() {
         <div className="parent__rowActions">
           {withPhoto && (
             <button type="button" className="parent__btnQuiet" onClick={() => pick('photo', target, label)}>
-              {photo === undefined ? 'Add photo' : 'Replace'}
+              {photo === undefined ? 'Add photo' : 'Replace photo'}
             </button>
           )}
-          <button type="button" className="parent__btn" onClick={() => pick('audio', target, label)}>
-            {audio === undefined ? 'Add voice' : 'Replace voice'}
+          {audio !== undefined && (
+            <button type="button" className="parent__btnQuiet" onClick={() => playClip(audio, () => {})}>
+              Listen
+            </button>
+          )}
+          <VoiceRecorder label={label} onSave={(blob) => saveRecording(target, label, blob)} />
+          <button type="button" className="parent__btnQuiet" onClick={() => pick('audio', target, label)}>
+            Use a file
           </button>
           {(photo !== undefined || audio !== undefined) && (
             <button
@@ -146,8 +164,9 @@ export default function MediaLibrary() {
       </div>
 
       <p className="parent__muted">
-        Recording inside the app comes later; for now record on the tablet (Voice Memos or similar),
-        save to Files, then pick the file here. Clips under five seconds work best.
+        Record straight into the app, or pick a clip recorded elsewhere. Recording stops itself after
+        six seconds, and you can listen before it replaces what is already there. Short and warm beats
+        clear and careful — it is his people he is listening for.
       </p>
     </div>
   );

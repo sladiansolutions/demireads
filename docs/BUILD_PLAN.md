@@ -39,9 +39,13 @@ Work one phase at a time. At the end of each phase, stop, summarize the changes,
 
 ## Phase 5: Polish and extras
 
+Done early, in phase 2: in-app voice recording, with the file picker kept as
+the fallback. Also added in phase 2, outside the original plan: a parent
+setting for Family Book page order, and bundled default illustrations for the
+example words.
+
 Options, in suggested order:
 - Notes with export and import (JSON).
-- In-app voice recording with upload fallback kept.
 - Song timing marks so letters light in sync with a recorded song.
 - Parent reordering of the letter sequence.
 - Media export for backup.
