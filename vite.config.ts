@@ -8,11 +8,10 @@ declare const process: { env: Record<string, string | undefined> };
 /**
  * GitHub Pages serves a project site from a subpath, so every asset URL and
  * the service worker's scope have to carry it. The deploy workflow sets
- * VITE_BASE from the repository name; the default matches the repo this was
- * written for, so a local production build behaves the same as the deployed
- * one.
+ * VITE_BASE from the repository name; the default matches the demireads repo,
+ * so a local production build behaves the same as the deployed one.
  */
-const base = process.env.VITE_BASE ?? '/sebastian-abc/';
+const base = process.env.VITE_BASE ?? '/demireads/';
 
 export default defineConfig({
   base,
