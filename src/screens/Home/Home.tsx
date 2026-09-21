@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import BigTile from '../../components/BigTile';
-import LockButton from '../../components/LockButton';
+import ParentGate from '../../components/ParentGate';
 import { BookGlyph, DuckGlyph, NotesGlyph, SunIcon } from '../../components/icons';
 import { useSettings } from '../../app/settings';
 import { isBuilt, type Route } from '../../app/routes';
@@ -53,6 +53,9 @@ const TILES: readonly Tile[] = [
  * SPEC 3.1. Screens that do not exist yet are drawn unlit and answer a tap
  * with a word rather than nothing, so no tap is ever dead (rule 6). They
  * light up on their own once phase 3 adds them to BUILT.
+ *
+ * The lock in the corner is the only way to the parent area, and it takes a
+ * deliberate two-finger hold (SPEC 4).
  */
 export default function Home({ onGo }: { onGo: (route: Route) => void }) {
   const { childName, familyNames } = useSettings();
@@ -65,7 +68,7 @@ export default function Home({ onGo }: { onGo: (route: Route) => void }) {
           <SunIcon />
           <h1 className="home__title">Hi, {childName}!</h1>
         </div>
-        <LockButton />
+        <ParentGate onOpen={() => onGo('parent')} />
       </div>
 
       <div className="home__tiles">

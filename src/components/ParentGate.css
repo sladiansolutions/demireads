@@ -1,0 +1,13 @@
+.gate {
+  position: relative;
+  /* A child pressing here must not select, drag or long-press-menu it. */
+  -webkit-touch-callout: none;
+}
+
+.gate__ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}

@@ -32,9 +32,11 @@ describe('Home', () => {
     expect(html).toContain('>S</span>');
   });
 
-  it('draws the parent lock without making it usable yet', () => {
-    expect(html).toContain('quiet-btn--lock');
-    expect(html).not.toContain('<button type="button" class="quiet-btn quiet-btn--lock');
+  it('puts the parent gate in the corner, needing a deliberate hold', () => {
+    expect(html).toContain('class="quiet-btn quiet-btn--lock gate"');
+    expect(html).toContain('Hold with two fingers for three seconds');
+    // The ring only exists mid-hold, so a fresh render has none.
+    expect(html).not.toContain('gate__ring');
   });
 });
 

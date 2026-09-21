@@ -49,3 +49,16 @@ export const ACTIVE_SET_MAX = 7;
 export function provisionalActiveSet(childName: string, familyNames: readonly string[] = []): string[] {
   return buildLetterSequence(childName, familyNames).slice(0, ACTIVE_SET_MAX);
 }
+
+/**
+ * Family Book page order (SPEC 3.3, plus the parent's choice). "sequence"
+ * opens on the child's own initial; "alphabet" is a plain A to Z, which is
+ * easier for a parent checking that every photo is in.
+ */
+export function bookSequence(
+  order: 'sequence' | 'alphabet',
+  childName: string,
+  familyNames: readonly string[] = [],
+): string[] {
+  return order === 'alphabet' ? [...ALPHABET] : buildLetterSequence(childName, familyNames);
+}

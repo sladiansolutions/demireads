@@ -3,12 +3,14 @@ import HomeButton from '../../components/HomeButton';
 import SpeakerButton from '../../components/SpeakerButton';
 import Illustration from '../../components/Illustration';
 import { useSettings } from '../../app/settings';
+import { useMedia } from '../../app/media';
 import { letterContent } from '../../content/letters';
 import { coplayPrompt } from '../../content/coplay';
 import { exampleWordsFor } from '../../engine/exampleWords';
 import { provisionalActiveSet } from '../../engine/letterSequence';
 import { tileStyleFor } from '../../engine/tileColor';
 import { sayLetter } from '../../audio/say';
+import { recordExposure } from '../../storage/letters';
 import './LetterGarden.css';
 
 const BOUNCE_MS = 320;
@@ -21,6 +23,7 @@ const COPLAY_MS = 5000;
  */
 export default function LetterGarden({ onHome }: { onHome: () => void }) {
   const { childName, familyNames } = useSettings();
+  const { photoUrl } = useMedia();
   const activeSet = provisionalActiveSet(childName, familyNames);
 
   const [selected, setSelected] = useState(() => activeSet[0] ?? 'A');
@@ -48,6 +51,7 @@ export default function LetterGarden({ onHome }: { onHome: () => void }) {
     bounceTimer.current = window.setTimeout(() => setBouncing(null), BOUNCE_MS);
 
     sayLetter(letter, exampleWordsFor(letter, childName, familyNames)[0]);
+    void recordExposure(letter);
 
     taps.current += 1;
     if (taps.current % COPLAY_EVERY === 0) {
@@ -84,9 +88,13 @@ export default function LetterGarden({ onHome }: { onHome: () => void }) {
           />
 
           <div className="garden__photos">
-            {[word1, word2].map((word) => (
+            {[word1, word2].map((word, slot) => (
               <div key={word} className="garden__photo">
-                <Illustration word={word} className="garden__photoSlot" />
+                <Illustration
+                  word={word}
+                  photoUrl={slot === 0 ? photoUrl(selected) : undefined}
+                  className="garden__photoSlot"
+                />
                 <div className="garden__word">{word}</div>
               </div>
             ))}

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { ALPHABET } from '../content/letters';
 import { DEFAULT_ORDER, SIMILAR_PAIRS } from '../content/sequence';
-import { ACTIVE_SET_MAX, buildLetterSequence, provisionalActiveSet } from './letterSequence';
+import { ACTIVE_SET_MAX, bookSequence, buildLetterSequence, provisionalActiveSet } from './letterSequence';
 
 describe('DEFAULT_ORDER', () => {
   it('contains all 26 letters exactly once', () => {
@@ -63,5 +63,23 @@ describe('provisionalActiveSet', () => {
     expect(set.slice(0, 2)).toEqual(['B', 'O']);
     expect(set).toHaveLength(ACTIVE_SET_MAX);
     expect(new Set(set).size).toBe(ACTIVE_SET_MAX);
+  });
+});
+
+describe('bookSequence', () => {
+  it('opens on the child\'s own initial in sequence order', () => {
+    const pages = bookSequence('sequence', 'Sebastian');
+    expect(pages[0]).toBe('S');
+    expect(pages).toHaveLength(26);
+  });
+
+  it('is a plain A to Z in alphabet order', () => {
+    expect(bookSequence('alphabet', 'Sebastian')).toEqual([...ALPHABET]);
+  });
+
+  it('covers all 26 letters either way', () => {
+    for (const order of ['sequence', 'alphabet'] as const) {
+      expect([...bookSequence(order, 'Sebastian', ['Mummy'])].sort()).toEqual([...ALPHABET].sort());
+    }
   });
 });

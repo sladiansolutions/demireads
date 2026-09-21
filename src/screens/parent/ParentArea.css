@@ -1,0 +1,276 @@
+/* Parent side: text is fine here, targets are 44px, and the page scrolls. */
+
+.parent {
+  min-height: 100%;
+  box-sizing: border-box;
+  padding: 40px 48px;
+  background: var(--ground-parent);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-size: var(--size-parent-body);
+  overflow-y: auto;
+}
+
+.parent__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.parent__title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.parent__back {
+  min-height: var(--touch-parent);
+  padding: 12px 20px;
+  border-radius: 24px;
+  background: #FFFFFF;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.parent__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.parent__column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+.parent__card {
+  background: #FFFFFF;
+  border-radius: var(--radius-card);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.parent__cardTitle {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.parent__subhead {
+  margin: 8px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.parent__stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.parent__label {
+  font-size: 16px;
+  color: #5E5A52;
+}
+
+.parent__value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.parent__muted {
+  margin: 0;
+  font-size: 15px;
+  color: var(--ink-muted);
+}
+
+.parent__warn {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--tomato);
+}
+
+.parent__range {
+  width: 100%;
+  min-height: var(--touch-parent);
+  accent-color: var(--teal);
+}
+
+.parent__input,
+.parent__textarea {
+  min-height: var(--touch-parent);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  background: var(--ground);
+  color: var(--ink);
+}
+
+.parent__textarea {
+  resize: none;
+}
+
+.parent__btn,
+.parent__btnQuiet,
+.parent__choice {
+  min-height: var(--touch-parent);
+  padding: 0 18px;
+  border-radius: 22px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.parent__btn {
+  background: var(--ink);
+  color: var(--on-color);
+}
+
+.parent__btn:disabled {
+  background: var(--line);
+  color: var(--ink-muted);
+}
+
+.parent__btnQuiet {
+  background: var(--sand);
+  color: var(--teal-deep);
+}
+
+.parent__choices {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.parent__choice {
+  border: 2px solid var(--line);
+  background: #FFFFFF;
+}
+
+.parent__choice--on {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: var(--on-color);
+}
+
+/* Photos and voices: a long list, so it scrolls inside its own card. */
+.parent__card--grow .parent__rows {
+  max-height: 320px;
+  overflow-y: auto;
+  border: 1px solid var(--line-soft);
+  border-radius: 14px;
+}
+
+.parent__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--sand);
+  flex-wrap: wrap;
+}
+
+.parent__row:last-child {
+  border-bottom: none;
+}
+
+.parent__rowMain {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.parent__rowLabel {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.parent__rowActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.parent__thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.parent__thumb--empty {
+  border: 2px dashed var(--line);
+  background: var(--ground);
+}
+
+.parent__progressRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.parent__progressLabel {
+  width: 110px;
+  font-size: 16px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.parent__chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.parent__chip {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.parent__notes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.parent__note {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: var(--ground);
+}
+
+.parent__noteDate {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-muted);
+}

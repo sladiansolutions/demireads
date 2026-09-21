@@ -1,26 +1,35 @@
-import { useRef, useState, type TouchEvent } from 'react';
+import { useMemo, useRef, useState, type TouchEvent } from 'react';
 import HomeButton from '../../components/HomeButton';
 import SpeakerButton from '../../components/SpeakerButton';
 import Illustration from '../../components/Illustration';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../components/icons';
 import { useSettings } from '../../app/settings';
+import { useMedia } from '../../app/media';
 import { bookWordFor } from '../../engine/exampleWords';
-import { buildLetterSequence } from '../../engine/letterSequence';
+import { bookSequence } from '../../engine/letterSequence';
 import { tileStyleFor } from '../../engine/tileColor';
 import { sayBookPage } from '../../audio/say';
+import { recordExposure } from '../../storage/letters';
 import './FamilyBook.css';
 
 const SWIPE_MIN_PX = 40;
 
 /**
- * SPEC 3.3. All 26 letters from day one, in sequence order. No questions, no
- * scoring, and the arrows wrap so a tap never does nothing.
+ * SPEC 3.3. All 26 letters from day one. No questions, no scoring, and the
+ * arrows wrap so a tap never does nothing. Page order follows the parent's
+ * choice: his own letters first, or plain A to Z.
  */
 export default function FamilyBook({ onHome }: { onHome: () => void }) {
-  const { childName, familyNames } = useSettings();
-  const sequence = buildLetterSequence(childName, familyNames);
+  const { childName, familyNames, bookOrder } = useSettings();
+  const { photoUrl } = useMedia();
+
+  const sequence = useMemo(
+    () => bookSequence(bookOrder, childName, familyNames),
+    [bookOrder, childName, familyNames],
+  );
 
   const [page, setPage] = useState(0);
+  const [direction, setDirection] = useState<'next' | 'back'>('next');
   const touchStartX = useRef<number | null>(null);
 
   const letter = sequence[page] ?? 'A';
@@ -29,9 +38,11 @@ export default function FamilyBook({ onHome }: { onHome: () => void }) {
 
   function goTo(next: number) {
     const wrapped = ((next % sequence.length) + sequence.length) % sequence.length;
+    setDirection(next > page ? 'next' : 'back');
     setPage(wrapped);
     const nextLetter = sequence[wrapped] ?? 'A';
     sayBookPage(nextLetter, bookWordFor(nextLetter, childName, familyNames));
+    void recordExposure(nextLetter);
   }
 
   function onTouchEnd(event: TouchEvent) {
@@ -68,14 +79,22 @@ export default function FamilyBook({ onHome }: { onHome: () => void }) {
           }}
           onTouchEnd={onTouchEnd}
         >
-          <Illustration word={word} className="book__photoSlot" placeholderIconSize={64} />
+          {/* Keyed by page so each turn replays the slide. */}
+          <div key={`${letter}-${page}`} className={`book__slide book__slide--${direction}`}>
+            <Illustration
+              word={word}
+              photoUrl={photoUrl(letter)}
+              className="book__photoSlot"
+              placeholderIconSize={64}
+            />
 
-          <div className="book__text">
-            <div className="book__letter" style={{ color: fill }}>
-              {letter}
+            <div className="book__text">
+              <div className="book__letter" style={{ color: fill }}>
+                {letter}
+              </div>
+              <div className="book__phrase">is for {word}</div>
+              <SpeakerButton text={word} variant="teal" onClick={() => sayBookPage(letter, word)} />
             </div>
-            <div className="book__phrase">is for {word}</div>
-            <SpeakerButton text={word} variant="teal" onClick={() => sayBookPage(letter, word)} />
           </div>
         </div>
 

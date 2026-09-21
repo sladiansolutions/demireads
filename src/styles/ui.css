@@ -197,3 +197,20 @@
   height: 76%;
   object-fit: contain;
 }
+
+/* A parent photo fills its slot; the flat defaults keep their margin. */
+.illus--photo {
+  background: var(--sand);
+}
+
+.illus--photo .illus__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Shown for the moment it takes to read settings out of IndexedDB. */
+.app-loading {
+  height: 100%;
+  background: var(--ground);
+}
