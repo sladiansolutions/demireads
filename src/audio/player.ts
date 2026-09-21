@@ -27,3 +27,17 @@ export function playClip(url: string, onFailure: () => void): void {
     if (current === audio) onFailure();
   });
 }
+
+/** Pause the current clip without discarding it (the A to Z song). */
+export function pauseClip(): void {
+  current?.pause();
+}
+
+/** Continue a paused clip. Silent if there is nothing to continue. */
+export function resumeClip(): void {
+  void current?.play().catch(() => {});
+}
+
+export function isClipPlaying(): boolean {
+  return current !== null && !current.paused;
+}

@@ -1,0 +1,76 @@
+.night {
+  position: relative;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 64px;
+  background: var(--night);
+  color: var(--ground);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+}
+
+.night__sky {
+  max-width: 100%;
+  height: auto;
+}
+
+.night__title {
+  font-size: 76px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.night__sub {
+  font-size: 30px;
+  font-weight: 600;
+  color: #D6D0E8;
+}
+
+.night__sleepers {
+  display: flex;
+  align-items: flex-end;
+  gap: 40px;
+  margin-top: 12px;
+}
+
+.night__sleeper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.night__zzz {
+  font-family: var(--font-display);
+  font-size: 26px;
+  color: var(--night-soft);
+}
+
+/* Letters lying down, asleep. */
+.night__tile {
+  width: 150px;
+  height: 110px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 84px;
+  font-weight: 700;
+  transform: rotate(-80deg);
+}
+
+/* Dark and quiet: a parent can find it, a child has no reason to. */
+.night__gate {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+}
+
+.night__gate .quiet-btn--lock {
+  background: transparent;
+  color: #384667;
+}

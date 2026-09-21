@@ -6,7 +6,7 @@
  */
 
 import { letterContent } from '../content/letters';
-import { letterAudioId } from '../storage/mediaKeys';
+import { GOODNIGHT_AUDIO_ID, letterAudioId, numberAudioId } from '../storage/mediaKeys';
 import { clipUrl } from './clips';
 import { playClip } from './player';
 import { speak } from './speech';
@@ -36,4 +36,42 @@ export function sayBookPage(letter: string, word: string): void {
 
 export function sayWord(word: string): void {
   speak(word);
+}
+
+/** Count the Ducks: each tap names the next number (SPEC 3.4). */
+export function sayNumber(n: number): void {
+  say(numberAudioId(n), `${n}.`);
+}
+
+/** The total at the end of a round, emphasised: "Three ducks!" */
+export function sayTotal(n: number, noun: string): void {
+  speak(`${numberWord(n)} ${noun}!`);
+}
+
+/** Just the letter's name, for the A to Z song. */
+export function sayLetterName(letter: string): void {
+  speak(letter.toUpperCase());
+}
+
+/** Goodnight (SPEC 3.7). Plays the parent's clip if there is one. */
+export function sayGoodnight(childName: string): void {
+  say(GOODNIGHT_AUDIO_ID, `Goodnight, letters! See you tomorrow, ${childName}.`);
+}
+
+const NUMBER_WORDS = [
+  'Zero',
+  'One',
+  'Two',
+  'Three',
+  'Four',
+  'Five',
+  'Six',
+  'Seven',
+  'Eight',
+  'Nine',
+  'Ten',
+];
+
+export function numberWord(n: number): string {
+  return NUMBER_WORDS[n] ?? String(n);
 }

@@ -1,0 +1,103 @@
+.ducks {
+  gap: 24px;
+}
+
+.ducks__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.ducks__again {
+  position: relative;
+  height: 72px;
+  padding: 0 28px;
+  border-radius: 36px;
+  background: var(--sand);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 600;
+  transition: transform var(--tap-in) var(--ease-tap);
+}
+
+.ducks__again:active {
+  transform: scale(0.96);
+}
+
+.ducks__count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  height: 150px;
+  flex-shrink: 0;
+}
+
+.ducks__numeral {
+  font-family: var(--font-display);
+  font-size: 140px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--plum);
+  min-width: 100px;
+  text-align: center;
+}
+
+.ducks__caption {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 700;
+}
+
+.ducks__pond {
+  flex-grow: 1;
+  border-radius: 48px;
+  background: #BFE3DF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+  gap: 24px 40px;
+  padding: 24px 40px;
+  min-height: 0;
+}
+
+.ducks__slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.ducks__badge {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: var(--plum);
+  color: var(--on-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 700;
+}
+
+/* The duck itself is the target, and it is comfortably over 120px. */
+.ducks__duck {
+  min-width: var(--touch-child);
+  min-height: var(--touch-child);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: transform 250ms var(--ease-tap);
+}
+
+.ducks__duck--counted {
+  transform: translateY(-18px);
+}

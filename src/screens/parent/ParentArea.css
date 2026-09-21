@@ -299,3 +299,8 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.25; }
 }
+
+.parent__btnWide {
+  align-self: flex-start;
+  padding: 0 24px;
+}

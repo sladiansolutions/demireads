@@ -214,3 +214,8 @@
   height: 100%;
   background: var(--ground);
 }
+
+/* Wrapper around the child screens; it exists to catch the first touch. */
+.child {
+  height: 100%;
+}

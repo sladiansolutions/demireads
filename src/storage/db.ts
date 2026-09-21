@@ -65,6 +65,15 @@ export interface Note {
   text: string;
 }
 
+/**
+ * Small pieces of app state that must outlive a reload: currently only the
+ * Goodnight lock, which has to survive closing the app (SPEC 3.7).
+ */
+export interface AppStateRecord {
+  id: 'lock';
+  lockedAt: string;
+}
+
 interface StoredSettings extends Settings {
   id: 'settings';
 }
@@ -76,10 +85,11 @@ interface AbcDb extends DBSchema {
   settings: { key: string; value: StoredSettings };
   sessions: { key: string; value: SessionRecord };
   notes: { key: string; value: Note };
+  appState: { key: string; value: AppStateRecord };
 }
 
 const DB_NAME = 'sebastian-abc';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 
 let dbPromise: Promise<IDBPDatabase<AbcDb>> | null = null;
 
@@ -91,13 +101,20 @@ export function hasStorage(): boolean {
 export function db(): Promise<IDBPDatabase<AbcDb>> {
   if (!hasStorage()) return Promise.reject(new Error('IndexedDB is not available'));
   dbPromise ??= openDB<AbcDb>(DB_NAME, DB_VERSION, {
-    upgrade(database) {
-      database.createObjectStore('letters', { keyPath: 'letter' });
-      database.createObjectStore('numbers', { keyPath: 'id' });
-      database.createObjectStore('media', { keyPath: 'id' });
-      database.createObjectStore('settings', { keyPath: 'id' });
-      database.createObjectStore('sessions', { keyPath: 'id' });
-      database.createObjectStore('notes', { keyPath: 'id' });
+    // Each step is guarded by version, so a tablet that already holds photos
+    // upgrades without losing them.
+    upgrade(database, oldVersion) {
+      if (oldVersion < 1) {
+        database.createObjectStore('letters', { keyPath: 'letter' });
+        database.createObjectStore('numbers', { keyPath: 'id' });
+        database.createObjectStore('media', { keyPath: 'id' });
+        database.createObjectStore('settings', { keyPath: 'id' });
+        database.createObjectStore('sessions', { keyPath: 'id' });
+        database.createObjectStore('notes', { keyPath: 'id' });
+      }
+      if (oldVersion < 2) {
+        database.createObjectStore('appState', { keyPath: 'id' });
+      }
     },
   });
   return dbPromise;

@@ -23,9 +23,16 @@ describe('Home', () => {
     expect(html).toContain('Hi, Sebastian!');
   });
 
-  it('shows four tiles, two of them unlit until phase 3', () => {
-    expect(html.match(/class="tile"/g)).toHaveLength(2);
-    expect(html.match(/class="tile tile--quiet"/g)).toHaveLength(2);
+  it('shows four tiles, all lit now that every screen exists', () => {
+    expect(html.match(/class="tile"/g)).toHaveLength(4);
+    expect(html).not.toContain('tile--quiet');
+    expect(html).not.toContain('Coming soon');
+  });
+
+  it('gives each tile its colour from the mockup', () => {
+    for (const tone of ['tomato', 'teal', 'plum', 'sun']) {
+      expect(html).toContain(`--tile-fill:var(--${tone})`);
+    }
   });
 
   it('leads with the first letter of the name', () => {

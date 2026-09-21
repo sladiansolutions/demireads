@@ -1,0 +1,37 @@
+.song__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.song__grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 18px;
+  flex-grow: 1;
+  align-content: center;
+  min-height: 0;
+}
+
+/* Unlit by default; the lit colour is set inline as each letter's turn comes. */
+.song__tile {
+  height: 128px;
+  border-radius: 30px;
+  background: var(--sand);
+  color: var(--ink-quiet);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 84px;
+  font-weight: 700;
+  line-height: 1;
+  transition: transform 200ms var(--ease-tap), background 200ms var(--ease-tap);
+}
+
+.song__tile--current {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 6px var(--ink);
+}

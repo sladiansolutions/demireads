@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSettings, useUpdateSettings } from '../../app/settings';
+import { useSession } from '../../app/session';
 import { requestPersistentStorage, type StorageStatus } from '../../storage/persist';
 import ProgressSummary from './ProgressSummary';
 import MediaLibrary from './MediaLibrary';
@@ -19,6 +20,7 @@ function megabytes(bytes: number): string {
 export default function ParentArea({ onBack }: { onBack: () => void }) {
   const settings = useSettings();
   const update = useUpdateSettings();
+  const { unlock } = useSession();
   const [storage, setStorage] = useState<StorageStatus | null>(null);
   // Raw text, so a half-typed "Mummy, " keeps its comma while you type.
   const [familyText, setFamilyText] = useState(() => settings.familyNames.join(', '));
@@ -118,6 +120,18 @@ export default function ParentArea({ onBack }: { onBack: () => void }) {
             <p className="parent__muted">
               A to Z makes it easier to check your photos are all in; his letters first is better for
               reading it with him.
+            </p>
+          </section>
+
+          <section className="parent__card">
+            <h2 className="parent__cardTitle">Session</h2>
+            <button type="button" className="parent__btn parent__btnWide" onClick={() => void unlock()}>
+              Start a fresh session
+            </button>
+            <p className="parent__muted">
+              Ends the goodnight screen if it is showing, and puts the timer back to a full
+              {' '}
+              {settings.sessionMinutes} minutes. The clock starts again on his next tap, not now.
             </p>
           </section>
 

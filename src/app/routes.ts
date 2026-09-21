@@ -2,8 +2,8 @@
  *  side has no address bar and no back button to get lost in. */
 export type Route = 'home' | 'letters' | 'book' | 'numbers' | 'song' | 'parent';
 
-/** Child-side screens that exist. Count the Ducks and A to Z arrive in phase 3. */
-export const BUILT: readonly Route[] = ['home', 'letters', 'book'];
+/** Child-side screens that exist. Home reads this to decide which tiles light. */
+export const BUILT: readonly Route[] = ['home', 'letters', 'book', 'numbers', 'song'];
 
 export function isBuilt(route: Route): boolean {
   return BUILT.includes(route);
