@@ -180,3 +180,20 @@
   border-radius: 44px;
   box-sizing: border-box;
 }
+
+/* A bundled default illustration, sitting in the same slot a parent photo
+   will use. Tinted rather than white so the flat icons keep their edges. */
+.illus {
+  border-radius: var(--radius-card);
+  background: var(--sun-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.illus__img {
+  width: 76%;
+  height: 76%;
+  object-fit: contain;
+}

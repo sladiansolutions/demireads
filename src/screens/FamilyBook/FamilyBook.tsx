@@ -1,7 +1,8 @@
 import { useRef, useState, type TouchEvent } from 'react';
 import HomeButton from '../../components/HomeButton';
 import SpeakerButton from '../../components/SpeakerButton';
-import { ChevronLeftIcon, ChevronRightIcon, PhotoIcon } from '../../components/icons';
+import Illustration from '../../components/Illustration';
+import { ChevronLeftIcon, ChevronRightIcon } from '../../components/icons';
 import { useSettings } from '../../app/settings';
 import { bookWordFor } from '../../engine/exampleWords';
 import { buildLetterSequence } from '../../engine/letterSequence';
@@ -67,10 +68,7 @@ export default function FamilyBook({ onHome }: { onHome: () => void }) {
           }}
           onTouchEnd={onTouchEnd}
         >
-          <div className="photo-slot book__photoSlot">
-            <PhotoIcon />
-            <span className="book__photoLabel">[PHOTO: {word}]</span>
-          </div>
+          <Illustration word={word} className="book__photoSlot" placeholderIconSize={64} />
 
           <div className="book__text">
             <div className="book__letter" style={{ color: fill }}>

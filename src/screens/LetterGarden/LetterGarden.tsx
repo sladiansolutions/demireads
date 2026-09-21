@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import HomeButton from '../../components/HomeButton';
 import SpeakerButton from '../../components/SpeakerButton';
-import { PhotoIcon } from '../../components/icons';
+import Illustration from '../../components/Illustration';
 import { useSettings } from '../../app/settings';
 import { letterContent } from '../../content/letters';
 import { coplayPrompt } from '../../content/coplay';
@@ -86,10 +86,7 @@ export default function LetterGarden({ onHome }: { onHome: () => void }) {
           <div className="garden__photos">
             {[word1, word2].map((word) => (
               <div key={word} className="garden__photo">
-                <div className="photo-slot garden__photoSlot">
-                  <PhotoIcon size={40} />
-                  <span>[PHOTO: {word}]</span>
-                </div>
+                <Illustration word={word} className="garden__photoSlot" />
                 <div className="garden__word">{word}</div>
               </div>
             ))}

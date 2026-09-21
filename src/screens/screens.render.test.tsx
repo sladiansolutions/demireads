@@ -48,8 +48,11 @@ describe('LetterGarden', () => {
   });
 
   it("uses the child's name as the first example word for S", () => {
+    // No default picture of Sebastian exists, so that slot waits for a parent
+    // photo, while "sun" shows its bundled illustration.
     expect(html).toContain('[PHOTO: Sebastian]');
-    expect(html).toContain('[PHOTO: sun]');
+    expect(html).toContain('class="illus garden__photoSlot"');
+    expect(html).toContain('<img class="illus__img"');
   });
 
   it('offers a replay button labelled with the sound', () => {
@@ -67,6 +70,8 @@ describe('FamilyBook', () => {
 
   it('opens on the first letter of the sequence', () => {
     expect(html).toContain('is for Sebastian');
+    // Page one is a name page, so it shows the placeholder, not an icon.
+    expect(html).toContain('[PHOTO: Sebastian]');
   });
 
   it('has a page dot for all 26 letters, one of them current', () => {

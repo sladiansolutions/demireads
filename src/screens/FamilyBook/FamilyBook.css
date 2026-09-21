@@ -17,14 +17,19 @@
   min-width: 0;
 }
 
+/* Size only, so it fits a default illustration and a parent photo alike. */
 .book__photoSlot {
   width: 480px;
   max-width: 45%;
   height: 100%;
-  border-width: 4px;
   border-radius: 32px;
-  background: #F7F2E8;
   flex-shrink: 0;
+}
+
+/* The empty state gets the mockup's heavier dashed frame. */
+.photo-slot.book__photoSlot {
+  border-width: 4px;
+  background: #F7F2E8;
 }
 
 .book__photoLabel {
