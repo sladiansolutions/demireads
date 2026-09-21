@@ -1,0 +1,80 @@
+/**
+ * Structural smoke tests. They do not check layout — that needs eyes on a
+ * tablet — but they catch a screen that throws, a missing letter, or a
+ * touch target that lost its minimum-size class.
+ */
+
+import type { ReactElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { describe, expect, it } from 'vitest';
+import { SettingsProvider } from '../app/settings';
+import Home from './Home/Home';
+import LetterGarden from './LetterGarden/LetterGarden';
+import FamilyBook from './FamilyBook/FamilyBook';
+
+function render(node: ReactElement): string {
+  return renderToStaticMarkup(<SettingsProvider>{node}</SettingsProvider>);
+}
+
+describe('Home', () => {
+  const html = render(<Home onGo={() => {}} />);
+
+  it('greets the child by name', () => {
+    expect(html).toContain('Hi, Sebastian!');
+  });
+
+  it('shows four tiles, two of them unlit until phase 3', () => {
+    expect(html.match(/class="tile"/g)).toHaveLength(2);
+    expect(html.match(/class="tile tile--quiet"/g)).toHaveLength(2);
+  });
+
+  it('leads with the first letter of the name', () => {
+    expect(html).toContain('>S</span>');
+  });
+
+  it('draws the parent lock without making it usable yet', () => {
+    expect(html).toContain('quiet-btn--lock');
+    expect(html).not.toContain('<button type="button" class="quiet-btn quiet-btn--lock');
+  });
+});
+
+describe('LetterGarden', () => {
+  const html = render(<LetterGarden onHome={() => {}} />);
+
+  it('shows the name letters as the active set, capped at 7', () => {
+    const tiles = html.match(/aria-label="Letter ([A-Z])"/g) ?? [];
+    expect(tiles).toHaveLength(7);
+    expect(tiles.map((t) => t.slice(-2, -1)).join('')).toBe('SEBATIN');
+  });
+
+  it("uses the child's name as the first example word for S", () => {
+    expect(html).toContain('[PHOTO: Sebastian]');
+    expect(html).toContain('[PHOTO: sun]');
+  });
+
+  it('offers a replay button labelled with the sound', () => {
+    expect(html).toContain('S says /s/');
+  });
+
+  it('starts with no co-play prompt showing', () => {
+    expect(html).toContain('class="garden__coplay"');
+    expect(html).not.toContain('Ask him');
+  });
+});
+
+describe('FamilyBook', () => {
+  const html = render(<FamilyBook onHome={() => {}} />);
+
+  it('opens on the first letter of the sequence', () => {
+    expect(html).toContain('is for Sebastian');
+  });
+
+  it('has a page dot for all 26 letters, one of them current', () => {
+    expect(html.match(/class="book__dot"/g)).toHaveLength(25);
+    expect(html.match(/class="book__dot book__dot--current"/g)).toHaveLength(1);
+  });
+
+  it('gives both arrows the enlarged child touch area', () => {
+    expect(html.match(/round-btn[^"]*hit-child/g)).toHaveLength(2);
+  });
+});

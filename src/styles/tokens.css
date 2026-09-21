@@ -63,6 +63,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   :root {
-    --tap-in: 1ms;
+    /* SPEC 9: swap bounces and lifts for a brief change, still under 150ms. */
+    --tap-in: 120ms;
   }
 }

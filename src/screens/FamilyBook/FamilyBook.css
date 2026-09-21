@@ -1,0 +1,77 @@
+.book__body {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+.book__page {
+  flex-grow: 1;
+  height: 100%;
+  max-height: 560px;
+  padding: 36px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  min-width: 0;
+}
+
+.book__photoSlot {
+  width: 480px;
+  max-width: 45%;
+  height: 100%;
+  border-width: 4px;
+  border-radius: 32px;
+  background: #F7F2E8;
+  flex-shrink: 0;
+}
+
+.book__photoLabel {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.book__text {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-width: 0;
+}
+
+.book__letter {
+  font-family: var(--font-display);
+  font-size: 230px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.book__phrase {
+  font-family: var(--font-display);
+  font-size: 44px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.book__dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.book__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: var(--line);
+  transition: width var(--tap-in) var(--ease-tap);
+}
+
+.book__dot--current {
+  width: 36px;
+}

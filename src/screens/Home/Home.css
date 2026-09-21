@@ -1,0 +1,48 @@
+.home {
+  padding: var(--pad-screen-y) var(--pad-screen-x);
+  gap: var(--gap-section);
+}
+
+.home__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.home__greeting {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.home__title {
+  font-size: var(--size-title);
+  font-weight: 700;
+  letter-spacing: -1px;
+}
+
+.home__tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap-tile);
+  flex-grow: 1;
+  min-height: 0;
+}
+
+/* The first letter of the child's name, in a circle, as on the mockup. */
+.home__letterBadge {
+  width: 180px;
+  height: 180px;
+  max-width: 45%;
+  max-height: 45%;
+  border-radius: 50%;
+  background: var(--ground);
+  color: var(--tile-fill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 140px;
+  font-weight: 700;
+  line-height: 1;
+}

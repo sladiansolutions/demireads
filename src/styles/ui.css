@@ -1,0 +1,182 @@
+/* Shared child-side UI. Screen-specific layout lives with each screen. */
+
+/* Child screens are 1180 x 820 in the mockups but must scale to other
+   tablets, so the shell is flexible and the type is the only fixed part. */
+.screen {
+  height: 100%;
+  box-sizing: border-box;
+  padding: 40px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.screen__header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.screen__title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 600;
+}
+
+/* Rule 5: every child-side target is at least 120 x 120, even where the
+   mockup draws it smaller. The visual size stays; a centered pseudo-element
+   grows the touch area, which counts for hit testing. */
+.hit-child {
+  position: relative;
+}
+
+.hit-child::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max(100%, var(--touch-child));
+  height: max(100%, var(--touch-child));
+}
+
+/* Quiet square control: home, and the parent lock. */
+.quiet-btn {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  border-radius: var(--radius-card);
+  background: var(--sand);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--tap-in) var(--ease-tap);
+}
+
+.quiet-btn:active {
+  transform: scale(0.94);
+}
+
+.quiet-btn--lock {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-quiet);
+  color: var(--ink-quiet);
+}
+
+/* Big colored tile. Callers set --tile-fill and --tile-text. */
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  min-width: var(--touch-child);
+  min-height: var(--touch-child);
+  border-radius: var(--radius-tile);
+  background: var(--tile-fill, var(--sand));
+  color: var(--tile-text, var(--ink));
+  transition: transform var(--tap-in) var(--ease-tap);
+}
+
+.tile:active {
+  transform: scale(0.97);
+}
+
+.tile__label {
+  font-family: var(--font-display);
+  font-size: var(--size-tile-label);
+  font-weight: 600;
+}
+
+.tile--quiet {
+  background: var(--sand);
+  color: var(--ink-quiet);
+}
+
+/* A tap should be visible as well as audible (rule 6). */
+@keyframes tile-bounce {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+.tile--bouncing {
+  animation: tile-bounce 320ms var(--ease-tap);
+}
+
+/* Speaker button: dark by default, teal in the Family Book. */
+.speaker-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 72px;
+  padding: 0 28px;
+  border-radius: 36px;
+  background: var(--ink);
+  color: var(--on-color);
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 600;
+  transition: transform var(--tap-in) var(--ease-tap);
+}
+
+.speaker-btn:active {
+  transform: scale(0.97);
+}
+
+.speaker-btn--teal {
+  height: 76px;
+  padding: 0 30px;
+  border-radius: 38px;
+  background: var(--teal);
+  font-size: 26px;
+}
+
+/* Round page arrow. --round-fill / --round-text pick dark or quiet. */
+.round-btn {
+  width: 96px;
+  height: 96px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--round-fill, var(--sand));
+  color: var(--round-text, var(--ink));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--tap-in) var(--ease-tap);
+}
+
+.round-btn:active {
+  transform: scale(0.94);
+}
+
+.round-btn--dark {
+  --round-fill: var(--ink);
+  --round-text: var(--on-color);
+}
+
+/* Where a parent photo will go once phase 2 lands (SPEC 3.8). */
+.photo-slot {
+  border-radius: var(--radius-card);
+  border: 3px dashed var(--line-strong, #C9C1B0);
+  background: var(--photo-slot-bg, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: var(--ink-muted);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* White panel used by the spotlight and the book page. */
+.panel {
+  background: #FFFFFF;
+  border-radius: 44px;
+  box-sizing: border-box;
+}
