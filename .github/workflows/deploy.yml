@@ -33,8 +33,9 @@ jobs:
       - run: npm test
       - run: npm run build
         env:
-          # A project site lives at /<repo>/, so the build must know its base.
-          VITE_BASE: /${{ github.event.repository.name }}/
+          # Served from the root of demireads.deoyin.com. For a plain
+          # github.io project site this would be /${{ github.event.repository.name }}/.
+          VITE_BASE: /
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

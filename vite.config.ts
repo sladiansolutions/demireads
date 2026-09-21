@@ -6,12 +6,12 @@ import { VitePWA } from 'vite-plugin-pwa';
 declare const process: { env: Record<string, string | undefined> };
 
 /**
- * GitHub Pages serves a project site from a subpath, so every asset URL and
- * the service worker's scope have to carry it. The deploy workflow sets
- * VITE_BASE from the repository name; the default matches the demireads repo,
- * so a local production build behaves the same as the deployed one.
+ * The site is served from the root of its own domain
+ * (https://demireads.deoyin.com), so the base path is "/". A GitHub Pages
+ * *project* site would instead live at /<repo>/, and every asset URL plus the
+ * service worker's scope would have to carry that; set VITE_BASE to switch.
  */
-const base = process.env.VITE_BASE ?? '/demireads/';
+const base = process.env.VITE_BASE ?? '/';
 
 export default defineConfig({
   base,
