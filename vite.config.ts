@@ -2,7 +2,20 @@ import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
+// Declared rather than pulling in @types/node for one lookup.
+declare const process: { env: Record<string, string | undefined> };
+
+/**
+ * GitHub Pages serves a project site from a subpath, so every asset URL and
+ * the service worker's scope have to carry it. The deploy workflow sets
+ * VITE_BASE from the repository name; the default matches the repo this was
+ * written for, so a local production build behaves the same as the deployed
+ * one.
+ */
+const base = process.env.VITE_BASE ?? '/sebastian-abc/';
+
 export default defineConfig({
+  base,
   plugins: [
     react(),
     /**
@@ -24,8 +37,8 @@ export default defineConfig({
         short_name: 'ABC',
         description: 'Letters and numbers for Sebastian.',
         lang: 'en',
-        start_url: '/',
-        scope: '/',
+        start_url: base,
+        scope: base,
         display: 'standalone',
         orientation: 'landscape',
         background_color: '#FBF6EC',
@@ -38,7 +51,7 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,svg,woff,woff2}'],
-        navigateFallback: 'index.html',
+        navigateFallback: `${base}index.html`,
         cleanupOutdatedCaches: true,
       },
     }),

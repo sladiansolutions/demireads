@@ -5,6 +5,7 @@ import { requestPersistentStorage, type StorageStatus } from '../../storage/pers
 import ProgressSummary from './ProgressSummary';
 import MediaLibrary from './MediaLibrary';
 import NotesPanel from './NotesPanel';
+import BackupPanel from './BackupPanel';
 import './ParentArea.css';
 
 const SESSION_CHOICES = [5, 10, 15, 20] as const;
@@ -159,7 +160,7 @@ export default function ParentArea({ onBack }: { onBack: () => void }) {
             )}
             <p className="parent__warn">
               Photos, clips and progress live only on this tablet. Clearing this site's data or deleting the
-              app from the home screen erases them, and there is no backup yet.
+              app from the home screen erases them. Export a backup to keep a copy.
             </p>
           </section>
         </div>
@@ -168,6 +169,11 @@ export default function ParentArea({ onBack }: { onBack: () => void }) {
           <section className="parent__card parent__card--grow">
             <h2 className="parent__cardTitle">Photos and voices</h2>
             <MediaLibrary />
+          </section>
+
+          <section className="parent__card">
+            <h2 className="parent__cardTitle">Backup and transfer</h2>
+            <BackupPanel />
           </section>
 
           <section className="parent__card">
