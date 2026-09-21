@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type TouchEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, type TouchEvent as ReactTouchEvent } from 'react';
 import { LockIcon } from './icons';
 import './ParentGate.css';
 
@@ -6,19 +6,31 @@ const HOLD_MS = 3000;
 const RING_RADIUS = 26;
 const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
+/** A device with no touch points is not the child's tablet, so a press and
+ *  hold is safe there. SPEC 4 asks for this in development; it also keeps a
+ *  deployed build usable from a desktop browser. */
+function pressAndHoldAllowed(): boolean {
+  if (import.meta.env.DEV) return true;
+  return typeof navigator !== 'undefined' && (navigator.maxTouchPoints ?? 0) === 0;
+}
+
 /**
  * SPEC 4. Two fingers held on the lock for three seconds. Releasing early
  * cancels silently: no sound, no message, nothing for a child to discover.
  *
- * The ring is driven by requestAnimationFrame rather than a CSS transition
- * on purpose. Under prefers-reduced-motion the global rules clamp transition
- * durations, which would fill the ring long before the hold completed and
- * lie about how much longer to wait.
+ * The second finger is counted on the document, not on the button. Each touch
+ * is delivered to whatever element it landed on, so requiring both fingers to
+ * hit one small target made the gate almost impossible to open.
+ *
+ * The ring is driven by requestAnimationFrame rather than a CSS transition,
+ * because the reduced-motion rules clamp transition durations and would fill
+ * it in 120ms while the hold still took three seconds.
  */
 export default function ParentGate({ onOpen }: { onOpen: () => void }) {
   const [progress, setProgress] = useState(0);
   const frame = useRef<number | undefined>(undefined);
   const startedAt = useRef<number | null>(null);
+  const fingerOnLock = useRef(false);
 
   const cancel = useCallback(() => {
     startedAt.current = null;
@@ -34,6 +46,7 @@ export default function ParentGate({ onOpen }: { onOpen: () => void }) {
     setProgress(next);
     if (next >= 1) {
       cancel();
+      fingerOnLock.current = false;
       onOpen();
       return;
     }
@@ -46,19 +59,34 @@ export default function ParentGate({ onOpen }: { onOpen: () => void }) {
     frame.current = requestAnimationFrame(tick);
   }, [tick]);
 
+  // Watch the whole document, so the second finger can land anywhere.
+  useEffect(() => {
+    const onStart = (event: TouchEvent) => {
+      if (fingerOnLock.current && event.touches.length >= 2) start();
+    };
+    const onEnd = (event: TouchEvent) => {
+      if (event.touches.length < 2) cancel();
+      if (event.touches.length === 0) fingerOnLock.current = false;
+    };
+    document.addEventListener('touchstart', onStart, { passive: true });
+    document.addEventListener('touchend', onEnd, { passive: true });
+    document.addEventListener('touchcancel', onEnd, { passive: true });
+    return () => {
+      document.removeEventListener('touchstart', onStart);
+      document.removeEventListener('touchend', onEnd);
+      document.removeEventListener('touchcancel', onEnd);
+    };
+  }, [start, cancel]);
+
   useEffect(() => cancel, [cancel]);
 
-  function onTouchStart(event: TouchEvent) {
+  function onTouchStart(event: ReactTouchEvent) {
+    fingerOnLock.current = true;
+    // Both fingers already down on the lock itself.
     if (event.touches.length >= 2) start();
   }
 
-  function onTouchEnd(event: TouchEvent) {
-    // Any finger leaving ends the hold.
-    if (event.touches.length < 2) cancel();
-  }
-
-  // Desktop development only: a mouse hold stands in for two fingers (SPEC 4).
-  const devMouse = import.meta.env.DEV
+  const pressAndHold = pressAndHoldAllowed()
     ? { onMouseDown: start, onMouseUp: cancel, onMouseLeave: cancel }
     : {};
 
@@ -67,11 +95,10 @@ export default function ParentGate({ onOpen }: { onOpen: () => void }) {
       type="button"
       className="quiet-btn quiet-btn--lock gate"
       aria-label="Parent area. Hold with two fingers for three seconds."
+      title="Hold with two fingers for three seconds"
       onTouchStart={onTouchStart}
-      onTouchEnd={onTouchEnd}
-      onTouchCancel={cancel}
       onContextMenu={(event) => event.preventDefault()}
-      {...devMouse}
+      {...pressAndHold}
     >
       <LockIcon />
       {progress > 0 && (

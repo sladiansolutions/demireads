@@ -4,6 +4,19 @@
   -webkit-touch-callout: none;
 }
 
+/* The lock stays small and muted as the mockup draws it, but two adult
+   fingertips need somewhere to land: 140px of invisible target, which also
+   satisfies the 120px floor for child screens (rule 5). */
+.gate::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px;
+  height: 140px;
+}
+
 .gate__ring {
   position: absolute;
   top: 50%;
