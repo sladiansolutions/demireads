@@ -89,3 +89,34 @@
   max-width: 190px;
   text-align: right;
 }
+
+@media (orientation: portrait) {
+  .night {
+    padding: 32px 22px;
+    gap: 24px;
+  }
+
+  .night__title {
+    font-size: clamp(38px, 9vw, 64px);
+  }
+
+  .night__sub {
+    font-size: 22px;
+  }
+
+  .night__sleepers {
+    gap: 18px;
+  }
+
+  .night__tile {
+    width: 100px;
+    height: 78px;
+    border-radius: 22px;
+    font-size: 54px;
+  }
+
+  .night__hint {
+    max-width: 120px;
+    font-size: 12px;
+  }
+}

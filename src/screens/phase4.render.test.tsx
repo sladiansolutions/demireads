@@ -13,7 +13,6 @@ import { ProgressProvider } from '../app/progress';
 import { SessionProvider } from '../app/session';
 import FindIt from './FindIt/FindIt';
 import LetterWall from './parent/LetterWall';
-import RotatePrompt from './Rotate/RotatePrompt';
 
 function render(node: ReactElement): string {
   return renderToStaticMarkup(
@@ -83,17 +82,5 @@ describe('LetterWall', () => {
   it('opens no override panel until a letter is chosen', () => {
     expect(html).not.toContain('wall__cell--open');
     expect(html).not.toContain('clears its counters');
-  });
-});
-
-describe('RotatePrompt', () => {
-  const html = renderToStaticMarkup(<RotatePrompt />);
-
-  it('asks for the tablet to be turned', () => {
-    expect(html).toContain('Turn the tablet');
-  });
-
-  it('gives a child nothing to press', () => {
-    expect(html).not.toContain('<button');
   });
 });

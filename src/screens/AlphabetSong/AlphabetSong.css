@@ -35,3 +35,22 @@
   transform: scale(1.06);
   box-shadow: 0 0 0 6px var(--ink);
 }
+
+@media (orientation: portrait) {
+  .song__header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* Five across, six rows, rather than seven across and squeezed. */
+  .song__grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .song__tile {
+    height: clamp(64px, 11vh, 96px);
+    border-radius: 22px;
+    font-size: clamp(40px, 9vw, 62px);
+  }
+}

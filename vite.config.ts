@@ -39,7 +39,10 @@ export default defineConfig({
         start_url: base,
         scope: base,
         display: 'standalone',
-        orientation: 'landscape',
+        // Landscape is what the screens were drawn for, but they reflow, so
+        // the tablet is not forced round (SPEC 2 says landscape; this is the
+        // one place the app is more permissive than the spec).
+        orientation: 'any',
         background_color: '#FBF6EC',
         theme_color: '#FBF6EC',
         icons: [

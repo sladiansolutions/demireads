@@ -219,3 +219,60 @@
 .child {
   height: 100%;
 }
+
+/* ---------------------------------------------------------------------------
+   Portrait. The screens are drawn for 1180 x 820 landscape, but a tablet gets
+   turned, so every child screen reflows rather than squeezing its row of
+   tiles into a narrow width. Touch targets stay at or above 120px throughout
+   (rule 5): what shrinks is type and padding, not anything he taps.
+   --------------------------------------------------------------------------- */
+@media (orientation: portrait) {
+  .screen {
+    padding: 24px 20px;
+    gap: 20px;
+  }
+
+  /* Headers wrap instead of crushing the title against the corner. */
+  .screen__header {
+    flex-wrap: wrap;
+  }
+
+  .screen__title {
+    font-size: 28px;
+  }
+
+  .speaker-btn {
+    height: 64px;
+    padding: 0 22px;
+    font-size: 24px;
+  }
+
+  .speaker-btn--teal {
+    height: 64px;
+    font-size: 22px;
+  }
+
+  .tile {
+    gap: 16px;
+    border-radius: 36px;
+  }
+
+  .tile__label {
+    font-size: 24px;
+  }
+}
+
+/* A safety net for short portrait screens, a phone rather than a tablet: let
+   a screen grow past the viewport and scroll, instead of clipping whatever
+   falls off the bottom. Landscape keeps its fixed full-height layout, where
+   nothing should ever scroll. */
+@media (orientation: portrait) {
+  .child {
+    overflow-y: auto;
+  }
+
+  .screen {
+    height: auto;
+    min-height: 100%;
+  }
+}

@@ -101,3 +101,48 @@
 .ducks__duck--counted {
   transform: translateY(-18px);
 }
+
+@media (orientation: portrait) {
+  .ducks__header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .ducks__again {
+    height: 60px;
+    padding: 0 22px;
+    font-size: 22px;
+  }
+
+  .ducks__count {
+    height: auto;
+    gap: 18px;
+  }
+
+  .ducks__numeral {
+    font-size: clamp(64px, 18vw, 120px);
+    min-width: 60px;
+  }
+
+  .ducks__caption {
+    font-size: clamp(30px, 8vw, 56px);
+  }
+
+  .ducks__pond {
+    border-radius: 36px;
+    padding: 18px;
+    gap: 14px 22px;
+  }
+
+  /* Smaller drawing, but the button stays a 120px target. */
+  .ducks__duck svg {
+    width: 96px;
+    height: auto;
+  }
+
+  .ducks__badge {
+    width: 56px;
+    height: 56px;
+    font-size: 32px;
+  }
+}

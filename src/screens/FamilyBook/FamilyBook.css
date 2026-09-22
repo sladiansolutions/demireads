@@ -110,3 +110,58 @@
 .book__slide--back {
   animation: book-slide-back 260ms var(--ease-tap);
 }
+
+@media (orientation: portrait) {
+  .book__body {
+    gap: 10px;
+  }
+
+  /* Picture above the letter, rather than beside it. */
+  .book__slide {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .book__page {
+    max-height: none;
+    padding: 18px;
+    border-radius: 32px;
+  }
+
+  .book__photoSlot {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    flex: 1 1 auto;
+    min-height: 180px;
+  }
+
+  .book__text {
+    flex: 0 0 auto;
+    gap: 12px;
+  }
+
+  .book__letter {
+    font-size: clamp(90px, 24vw, 170px);
+  }
+
+  .book__phrase {
+    font-size: clamp(24px, 6vw, 38px);
+  }
+
+  /* Visual size only: .hit-child keeps the tap area at 120px. */
+  .round-btn {
+    width: 64px;
+    height: 64px;
+  }
+
+  .round-btn svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .book__dots {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+}

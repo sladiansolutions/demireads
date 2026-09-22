@@ -93,3 +93,33 @@
   font-size: 20px;
   text-align: center;
 }
+
+@media (orientation: portrait) {
+  .find__header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .find__prompt {
+    font-size: clamp(26px, 6vw, 44px);
+  }
+
+  /* Stack two or three choices down the screen; four go two by two. */
+  .find__choices {
+    gap: 18px;
+  }
+
+  .find__choices[data-count='2'],
+  .find__choices[data-count='3'] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .find__choices[data-count='4'] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .find__tile {
+    border-radius: 36px;
+    font-size: clamp(72px, 20vw, 140px);
+  }
+}
