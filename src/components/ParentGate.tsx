@@ -1,4 +1,11 @@
-import { useCallback, useEffect, useRef, useState, type TouchEvent as ReactTouchEvent } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+  type TouchEvent as ReactTouchEvent,
+} from 'react';
 import { LockIcon } from './icons';
 import './ParentGate.css';
 
@@ -33,9 +40,19 @@ function isDeliberatePointer(pointerType: string): boolean {
  */
 export default function ParentGate({ onOpen }: { onOpen: () => void }) {
   const [progress, setProgress] = useState(0);
+  /** Shown when one finger is used, so the gate never looks broken. */
+  const [hint, setHint] = useState(false);
+  const hintTimer = useRef<number | undefined>(undefined);
   const frame = useRef<number | undefined>(undefined);
   const startedAt = useRef<number | null>(null);
   const fingerOnLock = useRef(false);
+
+  /** Tell the parent what the gate wants. Silent: no sound for a child. */
+  const nudge = useCallback(() => {
+    setHint(true);
+    window.clearTimeout(hintTimer.current);
+    hintTimer.current = window.setTimeout(() => setHint(false), 2500);
+  }, []);
 
   const cancel = useCallback(() => {
     startedAt.current = null;
@@ -60,6 +77,8 @@ export default function ParentGate({ onOpen }: { onOpen: () => void }) {
 
   const start = useCallback(() => {
     if (startedAt.current !== null) return;
+    setHint(false);
+    window.clearTimeout(hintTimer.current);
     startedAt.current = performance.now();
     frame.current = requestAnimationFrame(tick);
   }, [tick]);
@@ -83,12 +102,30 @@ export default function ParentGate({ onOpen }: { onOpen: () => void }) {
     };
   }, [start, cancel]);
 
-  useEffect(() => cancel, [cancel]);
+  useEffect(
+    () => () => {
+      cancel();
+      window.clearTimeout(hintTimer.current);
+    },
+    [cancel],
+  );
 
   function onTouchStart(event: ReactTouchEvent) {
     fingerOnLock.current = true;
     // Both fingers already down on the lock itself.
     if (event.touches.length >= 2) start();
+    // One finger: say so, rather than appearing broken.
+    else nudge();
+  }
+
+  /**
+   * Pointer events are handled for a mouse only. A touch that becomes part of
+   * a multi-touch gesture gets pointercancel, and on Android that arrives the
+   * instant the second finger lands — which cancelled the hold every time.
+   * Touch is tracked through the touch listeners above instead.
+   */
+  function onPointerEnd(event: ReactPointerEvent) {
+    if (event.pointerType === 'mouse') cancel();
   }
 
   return (
@@ -101,12 +138,12 @@ export default function ParentGate({ onOpen }: { onOpen: () => void }) {
       onPointerDown={(event) => {
         if (isDeliberatePointer(event.pointerType)) start();
       }}
-      // Lifting or leaving ends the hold, whatever was holding it.
-      onPointerUp={cancel}
-      onPointerLeave={cancel}
-      onPointerCancel={cancel}
+      onPointerUp={onPointerEnd}
+      onPointerLeave={onPointerEnd}
+      onPointerCancel={onPointerEnd}
       onContextMenu={(event) => event.preventDefault()}
     >
+      {hint && <span className="gate__hint">Two fingers</span>}
       <LockIcon />
       {progress > 0 && (
         <svg className="gate__ring" width="60" height="60" viewBox="0 0 60 60" aria-hidden="true">

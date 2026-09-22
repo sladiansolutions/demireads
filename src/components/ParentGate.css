@@ -24,3 +24,26 @@
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
+
+/* Stop the browser claiming the second finger as a pinch or pan gesture:
+   on Android that fires pointercancel and killed the hold. */
+.gate {
+  touch-action: none;
+}
+
+/* Parent-facing, and only while a single finger is being used. */
+.gate__hint {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 6px;
+  padding: 4px 10px;
+  border-radius: 10px;
+  background: var(--ink);
+  color: var(--on-color);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+}
