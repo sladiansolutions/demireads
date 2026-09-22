@@ -1,8 +1,14 @@
 /**
- * The 26 letters. `soundLabel` is what a parent reads on screen; `soundSpoken`
- * is what speech synthesis is given, because it reads "/b/" as "slash b slash".
- * `words` are the two example words shown in the Letter Garden spotlight;
- * the first is also the Family Book word.
+ * The 26 letters.
+ *
+ * `words` are the two example words shown in the Letter Garden spotlight; the
+ * first is also the Family Book word and the one spoken on a tap.
+ *
+ * `soundLabel` is the phonics sound as a parent reads it, used in the co-play
+ * prompts. `soundSpoken` is the same sound written for speech synthesis,
+ * which reads "/b/" as "slash b slash". Nothing speaks it at the moment: the
+ * Letter Garden says what the letter stands for instead. Both are kept
+ * because the sound is still the thing the co-play prompts ask about.
  */
 
 export interface LetterContent {

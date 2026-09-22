@@ -72,8 +72,11 @@ describe('LetterGarden', () => {
     expect(html).toContain('<img class="illus__img"');
   });
 
-  it('offers a replay button labelled with the sound', () => {
-    expect(html).toContain('S says /s/');
+  it('offers a replay button labelled with what the letter stands for', () => {
+    expect(html).toContain('S is for Sebastian');
+    // The phonics sound is not spoken or shown on this screen any more.
+    expect(html).not.toContain('says');
+    expect(html).not.toContain('/s/');
   });
 
   it('starts with no co-play prompt showing', () => {

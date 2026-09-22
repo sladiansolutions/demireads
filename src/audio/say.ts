@@ -21,11 +21,17 @@ function say(clipId: string, line: string): void {
   playClip(url, speakLine);
 }
 
-/** Letter Garden tap: "B. B says buh. Ball." (SPEC 3.2) */
+/**
+ * Letter Garden tap: "B is for ball."
+ *
+ * The phonics sound is deliberately not spoken here. SPEC 3.2 originally had
+ * "[letter]. [letter] says [sound]. [word]", which was changed on request:
+ * what the letter stands for, and nothing else.
+ */
 export function sayLetter(letter: string, exampleWord?: string): void {
-  const { letter: L, soundSpoken, words } = letterContent(letter);
+  const { letter: L, words } = letterContent(letter);
   const word = exampleWord ?? words[0];
-  say(letterAudioId(L), `${L}. ${L} says ${soundSpoken}. ${word}.`);
+  say(letterAudioId(L), `${L} is for ${word}.`);
 }
 
 /** Family Book page: "S is for Sebastian." (SPEC 3.3) */

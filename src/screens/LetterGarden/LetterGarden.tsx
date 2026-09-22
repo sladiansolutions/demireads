@@ -119,7 +119,7 @@ function Spotlight({ selected, activeSet, bouncing, photoUrl, words, onPick }: S
         </div>
 
         <SpeakerButton
-          text={`${content.letter} says ${content.soundLabel}`}
+          text={`${content.letter} is for ${word1}`}
           onClick={() => sayLetter(selected, word1)}
         />
 

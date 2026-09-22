@@ -27,7 +27,7 @@ Mockups for each screen are in `docs/design-reference/`. Match their layout, col
 
 ### 3.2 Letter Garden (child)
 - Shows the current **active set** of letters (maximum 7) as large colored tiles.
-- Tapping a tile: the tile bounces, the spotlight panel shows the letter large, and audio plays "[letter name]. [Letter] says [sound]." followed by the example word.
+- Tapping a tile: the tile bounces, the spotlight panel shows the letter large, and audio plays "[Letter] is for [example word]." The phonics sound is not spoken here; it appears only in the parent-facing co-play prompts.
 - Spotlight panel shows two example pictures for the selected letter: parent photos first if present, otherwise default illustrations.
 - A speaker button replays the sound.
 - Taps here count as **exposures only**, never as evidence of knowing.
