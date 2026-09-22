@@ -15,6 +15,11 @@ child screen, which carries no text for the child by design (rule 4).
 These are the fallback pictures only. A parent photo for a letter always wins
 (SPEC 3.2), which is the whole point of the Family Book.
 
+## Drawn for this app
+
+`xylophone.svg` is not from Twemoji: Unicode has no xylophone, so it is drawn
+as flat shapes in the app's own palette. No attribution needed.
+
 ## Words with no illustration
 
 These five keep the dashed placeholder, because no icon in the set reads
@@ -29,7 +34,6 @@ Letter J has no default picture at all as a result.
 | apple | apple.svg | U+1F34E |
 | ball | ball.svg | U+26BD |
 | banana | banana.svg | U+1F34C |
-| box | box.svg | U+1F4E6 |
 | cat | cat.svg | U+1F431 |
 | cup | cup.svg | U+1F964 |
 | dog | dog.svg | U+1F436 |

@@ -42,7 +42,7 @@ export const LETTERS: readonly LetterContent[] = [
   { letter: 'U', soundLabel: '/u/', soundSpoken: 'uh', words: ['umbrella', 'up'] },
   { letter: 'V', soundLabel: '/v/', soundSpoken: 'vvv', words: ['van', 'violin'] },
   { letter: 'W', soundLabel: '/w/', soundSpoken: 'wuh', words: ['water', 'wheel'] },
-  { letter: 'X', soundLabel: '/ks/', soundSpoken: 'ks', words: ['box', 'fox'] },
+  { letter: 'X', soundLabel: '/ks/', soundSpoken: 'ks', words: ['xylophone', 'fox'] },
   { letter: 'Y', soundLabel: '/y/', soundSpoken: 'yuh', words: ['yellow', 'yo-yo'] },
   { letter: 'Z', soundLabel: '/z/', soundSpoken: 'zzz', words: ['zebra', 'zip'] },
 ];
