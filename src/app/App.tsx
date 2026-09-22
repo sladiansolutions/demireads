@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Home from '../screens/Home/Home';
 import LetterGarden from '../screens/LetterGarden/LetterGarden';
 import FamilyBook from '../screens/FamilyBook/FamilyBook';
@@ -12,9 +12,10 @@ import { SettingsProvider, useSettingsLoaded } from './settings';
 import { MediaProvider } from './media';
 import { ProgressProvider } from './progress';
 import { SessionProvider, useSession } from './session';
+import { useBackGuard } from './useBackGuard';
 import { warmUpSpeech } from '../audio/speech';
 import { requestPersistentStorage } from '../storage/persist';
-import type { Route } from './routes';
+import { backTarget, type Route } from './routes';
 
 /**
  * App shell. Routing is in-app state: one screen at a time, always one way
@@ -25,6 +26,14 @@ function Screens() {
   const [route, setRoute] = useState<Route>('home');
   const loaded = useSettingsLoaded();
   const { locked, noteInteraction, unlock } = useSession();
+
+  // Android's back gesture would otherwise leave the app in one swipe.
+  useBackGuard(
+    useCallback(() => {
+      const target = backTarget(route, locked);
+      if (target !== null) setRoute(target);
+    }, [route, locked]),
+  );
 
   // SPEC 8: ask the browser to keep our data before there is any to lose.
   // Photos and clips are the family's only copy until it is exported.
