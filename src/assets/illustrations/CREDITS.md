@@ -22,9 +22,9 @@ as flat shapes in the app's own palette. No attribution needed.
 
 ## Words with no illustration
 
-These five keep the dashed placeholder, because no icon in the set reads
-clearly as the word for a two-year-old: **igloo, jam, jug, quilt, zip**.
-Letter J has no default picture at all as a result.
+These four keep the dashed placeholder, because no icon in the set reads
+clearly as the word for a two-year-old: **igloo, jam, quilt, zip**. Each is a
+second example word, so every letter has a picture for its first.
 
 ## Files
 
@@ -48,6 +48,7 @@ Letter J has no default picture at all as a result.
 | hat | hat.svg | U+1F3A9 |
 | house | house.svg | U+1F3E0 |
 | insect | insect.svg | U+1F41E |
+| jar | jar.svg | U+1FAD9 |
 | key | key.svg | U+1F511 |
 | kite | kite.svg | U+1FA81 |
 | leaf | leaf.svg | U+1F341 |

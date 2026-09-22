@@ -28,7 +28,7 @@ export const LETTERS: readonly LetterContent[] = [
   { letter: 'G', soundLabel: '/g/', soundSpoken: 'guh', words: ['goat', 'grapes'] },
   { letter: 'H', soundLabel: '/h/', soundSpoken: 'huh', words: ['hat', 'house'] },
   { letter: 'I', soundLabel: '/i/', soundSpoken: 'ih', words: ['igloo', 'insect'] },
-  { letter: 'J', soundLabel: '/j/', soundSpoken: 'juh', words: ['jam', 'jug'] },
+  { letter: 'J', soundLabel: '/j/', soundSpoken: 'juh', words: ['jar', 'jam'] },
   { letter: 'K', soundLabel: '/k/', soundSpoken: 'kuh', words: ['key', 'kite'] },
   { letter: 'L', soundLabel: '/l/', soundSpoken: 'lll', words: ['leaf', 'lion'] },
   { letter: 'M', soundLabel: '/m/', soundSpoken: 'mmm', words: ['moon', 'milk'] },

@@ -3,7 +3,7 @@ import { LETTERS } from './letters';
 import { illustrationFor, ILLUSTRATED_WORDS } from './illustrations';
 
 /** Deliberate gaps: no icon in the set reads as these words at age two. */
-const NO_ILLUSTRATION = ['igloo', 'jam', 'jug', 'quilt', 'zip'];
+const NO_ILLUSTRATION = ['igloo', 'jam', 'quilt', 'zip'];
 
 describe('illustrations', () => {
   it('covers every example word except the known gaps', () => {
