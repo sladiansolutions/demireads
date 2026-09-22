@@ -13,6 +13,7 @@ import { ProgressProvider } from '../app/progress';
 import { SessionProvider } from '../app/session';
 import FindIt from './FindIt/FindIt';
 import LetterWall from './parent/LetterWall';
+import RotatePrompt from './Rotate/RotatePrompt';
 
 function render(node: ReactElement): string {
   return renderToStaticMarkup(
@@ -29,18 +30,24 @@ function render(node: ReactElement): string {
 describe('FindIt', () => {
   const html = render(<FindIt onHome={() => {}} />);
 
-  it('asks for a letter from the seeded set', () => {
-    expect(html).toMatch(/Where is [SEBATIN]\?/);
+  it('asks for a letter from the seeded set, in one of its phrasings', () => {
+    expect(html).toMatch(/(Where is|Can you find|Show me|Where's|Point to) [SEBATIN]/);
   });
 
-  it('starts with two choices, as nothing is known yet', () => {
-    expect(html).toContain('data-count="2"');
-    expect(html.match(/class="find__tile"/g)).toHaveLength(2);
+  it('offers three choices, since seven letters can be asked about', () => {
+    expect(html).toContain('data-count="3"');
+    expect(html.match(/class="find__tile"/g)).toHaveLength(3);
   });
 
   it('offers Home and a replay of the question', () => {
     expect(html).toContain('aria-label="Home"');
-    expect(html).toContain('aria-label="Play the sound: Where is');
+    expect(html).toContain('aria-label="Play the sound:');
+  });
+
+  it('gives the tiles distinct colours, whatever the round', () => {
+    const fills = [...html.matchAll(/background:var\(--([a-z-]+)\)/g)].map((m) => m[1]);
+    expect(fills).toHaveLength(3);
+    expect(new Set(fills).size).toBe(3);
   });
 
   it('shows no marking of any kind before an answer', () => {
@@ -76,5 +83,17 @@ describe('LetterWall', () => {
   it('opens no override panel until a letter is chosen', () => {
     expect(html).not.toContain('wall__cell--open');
     expect(html).not.toContain('clears its counters');
+  });
+});
+
+describe('RotatePrompt', () => {
+  const html = renderToStaticMarkup(<RotatePrompt />);
+
+  it('asks for the tablet to be turned', () => {
+    expect(html).toContain('Turn the tablet');
+  });
+
+  it('gives a child nothing to press', () => {
+    expect(html).not.toContain('<button');
   });
 });

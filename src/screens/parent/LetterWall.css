@@ -59,3 +59,23 @@
   font-size: 12px;
   opacity: 0.75;
 }
+
+/* Smaller cells upright, so all 26 still fit without scrolling forever. */
+@media (orientation: portrait), (max-width: 900px) {
+  .wall__grid {
+    grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+    gap: 8px;
+  }
+
+  .wall__cell {
+    min-height: 76px;
+  }
+
+  .wall__letter {
+    font-size: 26px;
+  }
+
+  .wall__state {
+    font-size: 11px;
+  }
+}

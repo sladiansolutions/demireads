@@ -7,12 +7,14 @@ import AlphabetSong from '../screens/AlphabetSong/AlphabetSong';
 import FindIt from '../screens/FindIt/FindIt';
 import Goodnight from '../screens/Goodnight/Goodnight';
 import ParentArea from '../screens/parent/ParentArea';
+import RotatePrompt from '../screens/Rotate/RotatePrompt';
 import LetterWall from '../screens/parent/LetterWall';
 import { SettingsProvider, useSettingsLoaded } from './settings';
 import { MediaProvider } from './media';
 import { ProgressProvider } from './progress';
 import { SessionProvider, useSession } from './session';
 import { useBackGuard } from './useBackGuard';
+import { tryLockLandscape, useIsPortrait } from './useOrientation';
 import { warmUpSpeech } from '../audio/speech';
 import { requestPersistentStorage } from '../storage/persist';
 import { backTarget, type Route } from './routes';
@@ -26,6 +28,7 @@ function Screens() {
   const [route, setRoute] = useState<Route>('home');
   const loaded = useSettingsLoaded();
   const { locked, noteInteraction, unlock } = useSession();
+  const portrait = useIsPortrait();
 
   // Android's back gesture would otherwise leave the app in one swipe.
   useBackGuard(
@@ -42,9 +45,13 @@ function Screens() {
   }, []);
 
   // iOS needs the first utterance inside a user gesture, and voices load
-  // lazily, so the very first touch anywhere primes speech (SPEC 7).
+  // lazily, so the very first touch anywhere primes speech (SPEC 7). The same
+  // gesture is the only moment an orientation lock is allowed to be asked for.
   useEffect(() => {
-    const prime = () => warmUpSpeech();
+    const prime = () => {
+      warmUpSpeech();
+      tryLockLandscape();
+    };
     window.addEventListener('pointerdown', prime, { once: true });
     return () => window.removeEventListener('pointerdown', prime);
   }, []);
@@ -70,6 +77,8 @@ function Screens() {
 
   if (route === 'parent') return <ParentArea onBack={goHome} onWall={() => setRoute('wall')} />;
   if (route === 'wall') return <LetterWall onBack={() => setRoute('parent')} />;
+
+  if (portrait) return <RotatePrompt />;
 
   // Any touch on the child side starts the session clock; begin() is
   // idempotent, so repeating it costs nothing.

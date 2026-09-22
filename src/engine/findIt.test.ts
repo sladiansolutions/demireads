@@ -34,12 +34,9 @@ describe('choiceCount', () => {
     expect(choiceCount(withStates({ S: 1, B: 2 }))).toBe(2);
   });
 
-  it('becomes three once five letters are known', () => {
-    const states: Record<string, LetterState> = {};
-    for (const letter of ['A', 'B', 'C', 'D']) states[letter] = 3;
-    expect(choiceCount(withStates(states))).toBe(2);
-    states.E = 3;
-    expect(choiceCount(withStates(states))).toBe(3);
+  it('becomes three as soon as three letters can be asked about', () => {
+    expect(choiceCount(withStates({ S: 1, B: 1 }))).toBe(2);
+    expect(choiceCount(withStates({ S: 1, B: 1, T: 1 }))).toBe(3);
   });
 
   it('becomes four once ten letters are known', () => {
@@ -50,10 +47,14 @@ describe('choiceCount', () => {
     expect(choiceCount(withStates(states))).toBe(4);
   });
 
-  it('counts only Knows it, not letters still being learned', () => {
-    const states: Record<string, LetterState> = {};
-    for (const letter of ['A', 'B', 'C', 'D', 'E', 'F']) states[letter] = 2;
-    expect(choiceCount(withStates(states))).toBe(2);
+  it('reaches four only on ten known, not on ten being learned', () => {
+    const learning: Record<string, LetterState> = {};
+    for (const letter of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) learning[letter] = 2;
+    expect(choiceCount(withStates(learning))).toBe(3);
+
+    const known: Record<string, LetterState> = {};
+    for (const letter of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J']) known[letter] = 3;
+    expect(choiceCount(withStates(known))).toBe(4);
   });
 });
 
@@ -194,7 +195,25 @@ describe('nextRound', () => {
     const round = nextRound(progress, null, sequenceOf([0.1, 0.4, 0.8, 0.2]));
     expect(round).toBeDefined();
     expect(round?.choices).toContain(round?.target);
-    expect(round?.choices).toHaveLength(2);
+    expect(round?.choices).toHaveLength(3);
+  });
+
+  it('rotates the colour start, so consecutive rounds do not look alike', () => {
+    const progress = withStates({ S: 1, B: 2, T: 3 });
+    const seen = new Set<number>();
+    for (let i = 0; i < 80; i += 1) {
+      const round = nextRound(progress, null, Math.random);
+      if (round) seen.add(round.palette);
+    }
+    expect([...seen].sort()).toEqual([0, 1, 2, 3]);
+  });
+
+  it('keeps the palette inside the four-colour cycle', () => {
+    for (const r of [() => 0, () => 0.5, () => 1]) {
+      const round = nextRound(withStates({ S: 1, B: 1, T: 1 }), null, r);
+      expect(round?.palette).toBeGreaterThanOrEqual(0);
+      expect(round?.palette).toBeLessThanOrEqual(3);
+    }
   });
 
   it('gives nothing to ask before any letter is introduced', () => {
@@ -205,5 +224,8 @@ describe('nextRound', () => {
     const states: Record<string, LetterState> = { S: 1 };
     for (const letter of ['A', 'B', 'C', 'D', 'E']) states[letter] = 3;
     expect(nextRound(withStates(states), null, Math.random)?.choices).toHaveLength(3);
+
+    for (const letter of ['F', 'G', 'H', 'I', 'J']) states[letter] = 3;
+    expect(nextRound(withStates(states), null, Math.random)?.choices).toHaveLength(4);
   });
 });

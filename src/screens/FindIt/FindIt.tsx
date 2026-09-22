@@ -4,6 +4,7 @@ import SpeakerButton from '../../components/SpeakerButton';
 import { useProgress } from '../../app/progress';
 import { useSession } from '../../app/session';
 import { nextRound, type Round } from '../../engine/findIt';
+import { findItCheer, findItPrompt } from '../../content/prompts';
 import { tileStyleFor } from '../../engine/tileColor';
 import { speak } from '../../audio/speech';
 import './FindIt.css';
@@ -35,6 +36,7 @@ export default function FindIt({ onHome }: { onHome: () => void }) {
   const [round, setRound] = useState<Round | null>(() => nextRound(progress, null) ?? null);
   const [feedback, setFeedback] = useState<Feedback>({ kind: 'asking' });
   const previous = useRef<string | null>(round?.target ?? null);
+  const [roundNumber, setRoundNumber] = useState(0);
   const timer = useRef<number | undefined>(undefined);
   const release = useRef<(() => void) | null>(null);
 
@@ -46,15 +48,22 @@ export default function FindIt({ onHome }: { onHome: () => void }) {
     [],
   );
 
-  const ask = useCallback((letter: string) => {
-    speak(`Where is ${letter}?`);
-  }, []);
+  /** The question as it is currently phrased, spoken and shown. */
+  const question = findItPrompt(roundNumber, round?.target ?? '');
+
+  const ask = useCallback(
+    (letter: string) => {
+      speak(findItPrompt(roundNumber, letter));
+    },
+    [roundNumber],
+  );
 
   const deal = useCallback(() => {
     const next = nextRound(progress, previous.current);
     if (!next) return;
     previous.current = next.target;
     setRound(next);
+    setRoundNumber((n) => n + 1);
     setFeedback({ kind: 'asking' });
   }, [progress]);
 
@@ -92,7 +101,7 @@ export default function FindIt({ onHome }: { onHome: () => void }) {
 
     if (correct) {
       setFeedback({ kind: 'correct', letter });
-      speak(`Yes! ${letter}!`);
+      speak(findItCheer(roundNumber, letter));
     } else {
       setFeedback({ kind: 'miss', tapped: letter, target: round.target });
       // Name what he tapped, then show the one that was asked for (SPEC 3.6).
@@ -127,10 +136,10 @@ export default function FindIt({ onHome }: { onHome: () => void }) {
 
   const prompt =
     feedback.kind === 'correct'
-      ? `Yes! ${feedback.letter}!`
+      ? findItCheer(roundNumber, feedback.letter)
       : feedback.kind === 'miss'
         ? `That's ${feedback.tapped}. Here's ${feedback.target}.`
-        : `Where is ${round.target}?`;
+        : question;
 
   return (
     <div className="screen find">
@@ -139,7 +148,7 @@ export default function FindIt({ onHome }: { onHome: () => void }) {
           <HomeButton onClick={onHome} />
           <div className="screen__title">Find It</div>
         </div>
-        <SpeakerButton text={`Where is ${round.target}?`} onClick={() => ask(round.target)} />
+        <SpeakerButton text={question} onClick={() => ask(round.target)} />
       </div>
 
       <div className={feedback.kind === 'correct' ? 'find__prompt find__prompt--cheer' : 'find__prompt'}>
@@ -148,7 +157,7 @@ export default function FindIt({ onHome }: { onHome: () => void }) {
 
       <div className="find__choices" data-count={round.choices.length}>
         {round.choices.map((letter, index) => {
-          const { fill, text } = tileStyleFor(index);
+          const { fill, text } = tileStyleFor(round.palette + index);
           const isTarget = letter === round.target;
           const classes = ['find__tile'];
           if (feedback.kind === 'correct' && isTarget) classes.push('find__tile--cheer');

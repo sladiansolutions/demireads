@@ -18,15 +18,24 @@ export type ChoiceCount = 2 | 3 | 4;
 /** State 1 is asked most often, state 3 least (SPEC 5.4). */
 export const TARGET_WEIGHTS: Record<1 | 2 | 3, number> = { 1: 3, 2: 2, 3: 1 };
 
-const THREE_CHOICES_AT = 5;
+/** SPEC 5.4's threshold for the hardest level: ten letters known. */
 const FOUR_CHOICES_AT = 10;
+/** Below this many askable letters there is not enough to make three tiles. */
+const MIN_FOR_THREE = 3;
 
-/** More choices as more letters are known (SPEC 5.4). */
+/**
+ * How many tiles to show.
+ *
+ * SPEC 5.4 asks for two by default, three at five letters known and four at
+ * ten. Two is kept only for the very first rounds: it is a coin flip, so it
+ * both feels identical every time and inflates promotion, since guessing is
+ * right half the time. Three arrives as soon as there are three letters to
+ * choose between; four still waits for ten known, as the spec says.
+ */
 export function choiceCount(progress: Progress): ChoiceCount {
   const known = knownLetters(progress).length;
   if (known >= FOUR_CHOICES_AT) return 4;
-  if (known >= THREE_CHOICES_AT) return 3;
-  return 2;
+  return candidateTargets(progress).length >= MIN_FOR_THREE ? 3 : 2;
 }
 
 /** Every letter that has been started, so is fair to ask about. */
@@ -121,6 +130,14 @@ export function pickChoices(
 export interface Round {
   target: string;
   choices: string[];
+  /**
+   * Where to start in the four-colour cycle. Colours used to come from the
+   * tile's position, so every two-tile round was tomato then teal and each
+   * round looked like the last. Rotating per round varies the look without
+   * tying a colour to a letter, which would let him answer by colour instead
+   * of by shape.
+   */
+  palette: number;
 }
 
 /** One complete round, ready for the screen to draw. */
@@ -131,5 +148,9 @@ export function nextRound(
 ): Round | undefined {
   const target = pickTarget(progress, previous, random);
   if (target === undefined) return undefined;
-  return { target, choices: pickChoices(progress, target, choiceCount(progress), random) };
+  return {
+    target,
+    choices: pickChoices(progress, target, choiceCount(progress), random),
+    palette: Math.floor(Math.min(random(), 0.999999) * 4),
+  };
 }
