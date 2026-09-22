@@ -95,45 +95,73 @@
   font-size: 20px;
 }
 
+/* ---------------------------------------------------------------------------
+   Portrait. The landscape layout puts a 470px spotlight beside a 3-column
+   grid. Stacking those as they are makes a very tall column, so the spotlight
+   is rearranged rather than just narrowed: the letter sits beside its two
+   pictures instead of above them, which halves the panel's height, and the
+   tiles go four across so seven of them need two rows instead of three.
+   --------------------------------------------------------------------------- */
 @media (orientation: portrait) {
-  /* Spotlight on top, letters below, instead of side by side. */
   .garden__body {
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
   }
 
+  /* Sized by its contents, so the tiles get the leftover space. */
   .garden__spotlight {
     width: 100%;
-    flex-shrink: 1;
-    padding: 20px;
+    flex: 0 0 auto;
+    padding: 18px;
     border-radius: 32px;
+    /* Letter and pictures side by side, speaker button underneath. */
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    grid-template-areas:
+      'letter photos'
+      'speaker speaker';
+    align-items: center;
+    gap: 14px 18px;
   }
 
   .garden__bigLetter {
-    font-size: clamp(110px, 30vw, 200px);
+    grid-area: letter;
+    font-size: clamp(96px, 26vw, 170px);
+    text-align: center;
+  }
+
+  .garden__photos {
+    grid-area: photos;
+    gap: 12px;
+  }
+
+  .garden__spotlight .speaker-btn {
+    grid-area: speaker;
+    justify-self: center;
   }
 
   .garden__photoSlot {
-    height: 120px;
+    height: clamp(84px, 13vh, 116px);
   }
 
   .garden__word {
-    font-size: 22px;
+    font-size: 19px;
   }
 
-  /* Three across keeps every tile well over the 120px floor. */
+  /* Four across: seven letters in two rows rather than three. */
   .garden__grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-    align-content: start;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    align-content: center;
   }
 
   .garden__tile {
-    height: 120px;
-    border-radius: 28px;
-    font-size: 72px;
+    height: clamp(var(--touch-child), 15vh, 150px);
+    border-radius: 26px;
+    font-size: clamp(56px, 11vw, 86px);
   }
 
+  /* The co-play line moves under the title rather than squeezing beside it. */
   .garden__coplay {
     margin-left: 0;
     max-width: 100%;
