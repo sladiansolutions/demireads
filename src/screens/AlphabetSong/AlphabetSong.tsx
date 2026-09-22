@@ -5,21 +5,24 @@ import { useMedia } from '../../app/media';
 import { useSession } from '../../app/session';
 import { ALPHABET } from '../../content/letters';
 import { tileStyleFor } from '../../engine/tileColor';
+import { fallbackIntervalMs, indexAt, marksUsable } from '../../engine/songMarks';
 import { SONG_AUDIO_ID } from '../../storage/mediaKeys';
 import { sayLetterName } from '../../audio/say';
-import { pauseClip, playClip, resumeClip, stopClip } from '../../audio/player';
+import { currentClipTime, pauseClip, playClip, resumeClip, stopClip } from '../../audio/player';
 import './AlphabetSong.css';
 
 /**
- * SPEC 3.5. Letters light one at a time, in order, at a fixed interval. If a
- * parent recorded the song it plays alongside; timing marks that would sync
- * the two exactly are phase 5, so for now the interval is the metronome and
- * the recording is the music.
+ * SPEC 3.5. Letters light one at a time, in order.
+ *
+ * If a parent has tapped along to their recording, the letters follow those
+ * marks, so the lighting matches the singing. Otherwise they advance on a
+ * fixed interval — and past the end of a partial set of marks, on the average
+ * gap between the marks that do exist.
  *
  * Exposure only: nothing here is scored.
  */
 export default function AlphabetSong({ onHome }: { onHome: () => void }) {
-  const { songIntervalMs } = useSettings();
+  const { songIntervalMs, songMarks } = useSettings();
   const { urlFor } = useMedia();
   const { noteInteraction, hold } = useSession();
 
@@ -46,13 +49,40 @@ export default function AlphabetSong({ onHome }: { onHome: () => void }) {
     release.current?.();
   }, []);
 
+  const marks = songMarks ?? [];
+  const synced = marksUsable(marks) && songUrl !== undefined;
+
+  // Synced: follow the clip's own clock, so drift cannot accumulate.
   useEffect(() => {
-    if (!playing) return;
+    if (!playing || !synced) return;
+    const timer = window.setInterval(() => {
+      const at = currentClipTime();
+      if (at === null) return;
+      const fromMarks = indexAt(marks, at);
+      setIndex((current) => {
+        if (fromMarks > current) return fromMarks;
+        // Past the last mark, keep going on the average gap.
+        if (fromMarks === marks.length - 1 && current >= marks.length - 1) {
+          const gap = fallbackIntervalMs(marks, songIntervalMs) / 1000;
+          const overrun = at - (marks[marks.length - 1] as number);
+          const extra = Math.floor(overrun / gap);
+          const next = marks.length - 1 + extra;
+          return Math.min(next, ALPHABET.length - 1);
+        }
+        return current;
+      });
+    }, 80);
+    return () => window.clearInterval(timer);
+  }, [playing, synced, marks, songIntervalMs]);
+
+  // Unsynced: a plain metronome.
+  useEffect(() => {
+    if (!playing || synced) return;
     const timer = window.setInterval(() => {
       setIndex((current) => (current + 1 >= ALPHABET.length ? current : current + 1));
     }, songIntervalMs);
     return () => window.clearInterval(timer);
-  }, [playing, songIntervalMs]);
+  }, [playing, synced, songIntervalMs]);
 
   // Name each letter as its turn comes, unless a recorded song is the audio.
   // Tracked by ref so a re-render cannot make a letter speak twice.

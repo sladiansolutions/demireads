@@ -7,6 +7,7 @@ import { nextRound, type Round } from '../../engine/findIt';
 import { findItCheer, findItPrompt } from '../../content/prompts';
 import { tileStyleFor } from '../../engine/tileColor';
 import { speak } from '../../audio/speech';
+import { playCheer } from '../../audio/chime';
 import './FindIt.css';
 
 /** Long enough to hear the answer before the next question arrives. */
@@ -25,7 +26,8 @@ type Feedback =
  *
  * A wrong tap names what he tapped and then shows the right answer, warmly.
  * No buzzer, no red, no shake, no score. The difference between right and
- * wrong is that the right answer gets a cheer.
+ * wrong is that the right answer gets a cheer: three rising notes and a
+ * bounce. There is no sound for a miss at all (rule 1).
  */
 export default function FindIt({ onHome }: { onHome: () => void }) {
   const { progress, loaded, answer } = useProgress();
@@ -101,7 +103,9 @@ export default function FindIt({ onHome }: { onHome: () => void }) {
 
     if (correct) {
       setFeedback({ kind: 'correct', letter });
-      speak(findItCheer(roundNumber, letter));
+      // Sound first, then the words, so they do not talk over each other.
+      playCheer();
+      window.setTimeout(() => speak(findItCheer(roundNumber, letter)), 420);
     } else {
       setFeedback({ kind: 'miss', tapped: letter, target: round.target });
       // Name what he tapped, then show the one that was asked for (SPEC 3.6).

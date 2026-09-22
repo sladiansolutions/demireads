@@ -41,3 +41,8 @@ export function resumeClip(): void {
 export function isClipPlaying(): boolean {
   return current !== null && !current.paused;
 }
+
+/** Where the current clip has reached, in seconds, or null if none is loaded. */
+export function currentClipTime(): number | null {
+  return current === null ? null : current.currentTime;
+}

@@ -6,6 +6,7 @@ import ProgressSummary from './ProgressSummary';
 import MediaLibrary from './MediaLibrary';
 import NotesPanel from './NotesPanel';
 import BackupPanel from './BackupPanel';
+import SongMarksPanel from './SongMarksPanel';
 import './ParentArea.css';
 
 const SESSION_CHOICES = [5, 10, 15, 20] as const;
@@ -179,6 +180,11 @@ export default function ParentArea({ onBack, onWall }: ParentAreaProps) {
           <section className="parent__card parent__card--grow">
             <h2 className="parent__cardTitle">Photos and voices</h2>
             <MediaLibrary />
+          </section>
+
+          <section className="parent__card">
+            <h2 className="parent__cardTitle">Song timings</h2>
+            <SongMarksPanel />
           </section>
 
           <section className="parent__card">

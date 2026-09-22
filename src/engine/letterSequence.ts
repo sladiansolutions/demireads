@@ -16,7 +16,16 @@ function lettersOf(name: string): string[] {
     .filter((c) => c >= 'A' && c <= 'Z');
 }
 
-export function buildLetterSequence(childName: string, familyNames: readonly string[] = []): string[] {
+export function buildLetterSequence(
+  childName: string,
+  familyNames: readonly string[] = [],
+  /**
+   * A parent's own order, which wins over everything. It may be partial or
+   * hold junk: only A-Z is taken, in the order given, and the usual rule
+   * fills in whatever is left.
+   */
+  override: readonly string[] = [],
+): string[] {
   const seen = new Set<string>();
   const order: string[] = [];
 
@@ -27,6 +36,10 @@ export function buildLetterSequence(childName: string, familyNames: readonly str
     }
   };
 
+  for (const entry of override) {
+    const letter = lettersOf(entry)[0];
+    if (letter) push(letter);
+  }
   for (const letter of lettersOf(childName)) push(letter);
   for (const name of familyNames) {
     const first = lettersOf(name)[0];
@@ -46,8 +59,12 @@ export function buildLetterSequence(childName: string, familyNames: readonly str
  */
 export const ACTIVE_SET_MAX = 7;
 
-export function provisionalActiveSet(childName: string, familyNames: readonly string[] = []): string[] {
-  return buildLetterSequence(childName, familyNames).slice(0, ACTIVE_SET_MAX);
+export function provisionalActiveSet(
+  childName: string,
+  familyNames: readonly string[] = [],
+  override: readonly string[] = [],
+): string[] {
+  return buildLetterSequence(childName, familyNames, override).slice(0, ACTIVE_SET_MAX);
 }
 
 /**
@@ -59,6 +76,7 @@ export function bookSequence(
   order: 'sequence' | 'alphabet',
   childName: string,
   familyNames: readonly string[] = [],
+  override: readonly string[] = [],
 ): string[] {
-  return order === 'alphabet' ? [...ALPHABET] : buildLetterSequence(childName, familyNames);
+  return order === 'alphabet' ? [...ALPHABET] : buildLetterSequence(childName, familyNames, override);
 }

@@ -79,3 +79,56 @@
     font-size: 11px;
   }
 }
+
+/* Reordering which letters come next. */
+.seq {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seq__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: var(--ground);
+  flex-wrap: wrap;
+}
+
+.seq__rank {
+  width: 26px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+
+.seq__letter {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  min-width: 34px;
+}
+
+.seq__state {
+  flex-grow: 1;
+}
+
+.seq__actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.seq__actions .parent__btnQuiet {
+  min-width: var(--touch-parent);
+  font-size: 18px;
+}
+
+.seq__actions button:disabled {
+  opacity: 0.4;
+}

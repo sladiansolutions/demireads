@@ -83,3 +83,39 @@ describe('bookSequence', () => {
     }
   });
 });
+
+describe("a parent's own order", () => {
+  it('comes before the name letters', () => {
+    expect(buildLetterSequence('Sebastian', [], ['M', 'D']).slice(0, 4)).toEqual(['M', 'D', 'S', 'E']);
+  });
+
+  it('can be partial: the usual rule fills in the rest', () => {
+    const seq = buildLetterSequence('Sebastian', [], ['Z']);
+    expect(seq[0]).toBe('Z');
+    expect(seq.slice(1, 4)).toEqual(['S', 'E', 'B']);
+    expect(seq).toHaveLength(26);
+  });
+
+  it('still returns all 26 letters exactly once', () => {
+    const seq = buildLetterSequence('Sebastian', ['Mummy'], ['Q', 'X', 'A']);
+    expect([...seq].sort()).toEqual([...ALPHABET].sort());
+  });
+
+  it('ignores duplicates and anything that is not a letter', () => {
+    const seq = buildLetterSequence('Sebastian', [], ['B', 'B', '7', '', 'b']);
+    expect(seq[0]).toBe('B');
+    expect(seq[1]).not.toBe('B');
+    expect(seq).toHaveLength(26);
+  });
+
+  it('decides the active set, so a parent can choose what he practises', () => {
+    expect(provisionalActiveSet('Sebastian', [], ['X', 'Q', 'Z'])).toEqual([
+      'X', 'Q', 'Z', 'S', 'E', 'B', 'A',
+    ]);
+  });
+
+  it('is ignored by the A to Z book order, which is always alphabetical', () => {
+    expect(bookSequence('alphabet', 'Sebastian', [], ['Z'])).toEqual([...ALPHABET]);
+    expect(bookSequence('sequence', 'Sebastian', [], ['Z'])[0]).toBe('Z');
+  });
+});

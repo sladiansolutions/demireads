@@ -1,5 +1,6 @@
 import { useRef, useState, type ChangeEvent } from 'react';
-import { useSettings } from '../../app/settings';
+import { useSettings, useUpdateSettings } from '../../app/settings';
+import { backupAge } from '../../storage/backupAge';
 import { useMedia } from '../../app/media';
 import { bundleFilename, summarize, validateBundle, type BundleSummary } from '../../storage/transfer';
 import { applyBundle, buildBundle, downloadBundle, type ImportResult } from '../../storage/transferStore';
@@ -20,12 +21,15 @@ type State =
  * importing one parent's voices cannot undo the other's setup.
  */
 export default function BackupPanel() {
-  const { childName } = useSettings();
+  const { childName, lastExportAt } = useSettings();
+  const update = useUpdateSettings();
   const { reload } = useMedia();
   const fileInput = useRef<HTMLInputElement>(null);
   const [state, setState] = useState<State>({ kind: 'idle' });
   const [withSettings, setWithSettings] = useState(false);
   const [withProgress, setWithProgress] = useState(false);
+
+  const age = backupAge(lastExportAt, new Date());
 
   async function exportAll() {
     setState({ kind: 'working', what: 'Packing everything up' });
@@ -33,6 +37,7 @@ export default function BackupPanel() {
       const bundle = await buildBundle();
       const filename = bundleFilename(new Date(), childName);
       downloadBundle(bundle, filename);
+      update({ lastExportAt: new Date().toISOString() });
       setState({ kind: 'exported', summary: summarize(bundle), filename });
     } catch (error) {
       setState({ kind: 'failed', message: error instanceof Error ? error.message : 'Export failed.' });
@@ -64,6 +69,9 @@ export default function BackupPanel() {
         One file holds every photo, voice clip, note and setting. Keep a copy somewhere safe: this
         tablet is otherwise the only place they exist.
       </p>
+
+      {/* SPEC 8: say when the last backup was, and nudge when it is old. */}
+      <p className={age.stale ? 'parent__warn' : 'parent__value'}>{age.message}</p>
 
       <div className="parent__choices">
         <button type="button" className="parent__btn" onClick={() => void exportAll()}>

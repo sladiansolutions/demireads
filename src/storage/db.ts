@@ -21,6 +21,18 @@ export interface Settings {
    * can carry the right word.
    */
   letterWords: Record<string, string>;
+  /** ISO timestamp of the last export, for the backup reminder (SPEC 8). */
+  lastExportAt?: string | undefined;
+  /**
+   * The parent's own order for introducing letters. Partial lists are fine:
+   * whatever is listed comes first, the usual rule fills in the rest.
+   */
+  sequenceOverride?: string[] | undefined;
+  /**
+   * Seconds into the song clip at which each letter is sung, in order. A
+   * partial list is useful: the letters past it fall back to an interval.
+   */
+  songMarks?: number[] | undefined;
 }
 
 export type LetterState = 0 | 1 | 2 | 3;

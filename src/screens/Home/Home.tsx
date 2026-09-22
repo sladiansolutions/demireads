@@ -69,8 +69,8 @@ const TILES: readonly Tile[] = [
  * deliberate two-finger hold (SPEC 4).
  */
 export default function Home({ onGo }: { onGo: (route: Route) => void }) {
-  const { childName, familyNames } = useSettings();
-  const firstLetter = provisionalActiveSet(childName, familyNames)[0] ?? 'A';
+  const { childName, familyNames, sequenceOverride } = useSettings();
+  const firstLetter = provisionalActiveSet(childName, familyNames, sequenceOverride ?? [])[0] ?? 'A';
 
   return (
     <div className="screen home">

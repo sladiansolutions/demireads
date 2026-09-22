@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useProgress } from '../../app/progress';
+import SequenceEditor from './SequenceEditor';
 import { STATE_LABELS } from '../../storage/letters';
 import { ALPHABET } from '../../content/letters';
 import { nextToIntroduce, qualifyingDays } from '../../engine/scheduler';
@@ -74,6 +75,11 @@ export default function LetterWall({ onBack }: { onBack: () => void }) {
           Up next: {upNext.join(', ') || 'every letter has been started'}.
           {waiting !== undefined && ' At most one new letter joins per day.'}
         </p>
+      </section>
+
+      <section className="parent__card">
+        <h2 className="parent__cardTitle">What comes next</h2>
+        <SequenceEditor />
       </section>
 
       {open !== null && (

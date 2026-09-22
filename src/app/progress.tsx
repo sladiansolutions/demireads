@@ -59,8 +59,11 @@ const ProgressContext = createContext<ProgressValue>({
 });
 
 export function ProgressProvider({ children }: { children: ReactNode }) {
-  const { childName, familyNames } = useSettings();
-  const sequence = useMemo(() => buildLetterSequence(childName, familyNames), [childName, familyNames]);
+  const { childName, familyNames, sequenceOverride } = useSettings();
+  const sequence = useMemo(
+    () => buildLetterSequence(childName, familyNames, sequenceOverride ?? []),
+    [childName, familyNames, sequenceOverride],
+  );
 
   // Without IndexedDB (unit tests, SSR) there is nothing to read, so the
   // seeded set is already the truth and the screens can render immediately.

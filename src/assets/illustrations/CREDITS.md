@@ -17,14 +17,15 @@ These are the fallback pictures only. A parent photo for a letter always wins
 
 ## Drawn for this app
 
-`xylophone.svg` is not from Twemoji: Unicode has no xylophone, so it is drawn
-as flat shapes in the app's own palette. No attribution needed.
+Unicode has no xylophone and no igloo, so Twemoji has neither.
+`xylophone.svg` and `igloo.svg` are drawn here as flat shapes, the xylophone
+in the app's own palette and the igloo in snow blues. No attribution needed.
 
 ## Words with no illustration
 
-These four keep the dashed placeholder, because no icon in the set reads
-clearly as the word for a two-year-old: **igloo, jam, quilt, zip**. Each is a
-second example word, so every letter has a picture for its first.
+Three words keep the dashed placeholder, because nothing reads clearly as
+them at this size: **jam, quilt, zip**. All three are second example words, so
+every letter has a picture for the word it is named after.
 
 ## Files
 

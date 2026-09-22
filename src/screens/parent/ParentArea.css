@@ -380,3 +380,11 @@
     max-width: 260px;
   }
 }
+
+/* Tapping along to the song: one big target, because it is used 26 times in
+   a row while listening rather than looking. */
+.marks__tap {
+  min-height: 96px;
+  font-size: 24px;
+  border-radius: 20px;
+}

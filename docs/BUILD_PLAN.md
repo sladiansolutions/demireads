@@ -39,16 +39,20 @@ Work one phase at a time. At the end of each phase, stop, summarize the changes,
 
 ## Phase 5: Polish and extras
 
-Done early, in phase 2: in-app voice recording, with the file picker kept as
-the fallback. Also added in phase 2, outside the original plan: a parent
-setting for Family Book page order, and bundled default illustrations for the
-example words.
+All of phase 5 is now done, some of it earlier than planned:
 
-Options, in suggested order:
-- Notes with export and import (JSON).
-- Song timing marks so letters light in sync with a recorded song.
-- Parent reordering of the letter sequence.
-- Media export for backup.
+- Notes, and export and import as JSON, including every photo and voice clip
+  (phase 2, since the tablet was otherwise the only copy).
+- In-app voice recording, with the file picker kept as the fallback (phase 2).
+- Song timing marks: a parent taps along to their recording and the letters
+  light with the singing.
+- Parent reordering of the letter sequence, on the letter wall.
+- Media export, which is the same JSON file as above.
+
+Added outside the original plan: default illustrations for the example words,
+a parent setting for Family Book page order, a word per letter, the backup
+reminder from SPEC 8, a synthesised celebration sound, portrait layouts for
+every screen, and a back-gesture guard for Android.
 
 ## Testing on the tablet
 

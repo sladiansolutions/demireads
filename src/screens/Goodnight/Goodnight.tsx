@@ -11,7 +11,7 @@ import './Goodnight.css';
  * closing and reopening the app.
  */
 export default function Goodnight({ onParent }: { onParent: () => void }) {
-  const { childName, familyNames } = useSettings();
+  const { childName, familyNames, sequenceOverride } = useSettings();
   const spoken = useRef(false);
 
   // Once, and only once: this is a calm screen, not a loop.
@@ -21,7 +21,7 @@ export default function Goodnight({ onParent }: { onParent: () => void }) {
     sayGoodnight(childName);
   }, [childName]);
 
-  const sleepers = provisionalActiveSet(childName, familyNames).slice(0, 2);
+  const sleepers = provisionalActiveSet(childName, familyNames, sequenceOverride ?? []).slice(0, 2);
   const tiles = [
     { key: 'first', text: sleepers[0] ?? 'S', fill: 'var(--tomato)' },
     { key: 'second', text: sleepers[1] ?? 'B', fill: 'var(--teal)' },

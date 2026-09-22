@@ -20,13 +20,13 @@ const SWIPE_MIN_PX = 40;
  * choice: his own letters first, or plain A to Z.
  */
 export default function FamilyBook({ onHome }: { onHome: () => void }) {
-  const { childName, familyNames, bookOrder, letterWords } = useSettings();
+  const { childName, familyNames, bookOrder, letterWords, sequenceOverride } = useSettings();
   const { photoUrl } = useMedia();
   const { addExposure } = useProgress();
 
   const sequence = useMemo(
-    () => bookSequence(bookOrder, childName, familyNames),
-    [bookOrder, childName, familyNames],
+    () => bookSequence(bookOrder, childName, familyNames, sequenceOverride ?? []),
+    [bookOrder, childName, familyNames, sequenceOverride],
   );
 
   const [page, setPage] = useState(0);
