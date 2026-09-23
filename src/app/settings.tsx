@@ -23,8 +23,17 @@ const SettingsContext = createContext<SettingsValue>({
   loaded: true,
 });
 
-export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
+interface SettingsProviderProps {
+  children: ReactNode;
+  /**
+   * Starting values, for tests that need a particular setting. Real launches
+   * leave this out and read from IndexedDB.
+   */
+  initial?: Partial<Settings>;
+}
+
+export function SettingsProvider({ children, initial }: SettingsProviderProps) {
+  const [settings, setSettings] = useState<Settings>(() => ({ ...DEFAULT_SETTINGS, ...initial }));
   // Without IndexedDB (unit tests, SSR) the defaults are already the truth.
   const [loaded, setLoaded] = useState(() => !hasStorage());
 

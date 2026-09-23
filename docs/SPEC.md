@@ -48,7 +48,7 @@ Mockups for each screen are in `docs/design-reference/`. Match their layout, col
 
 ### 3.5 A to Z Song (child)
 - All 26 letters in a grid, unlit.
-- Two modes, chosen with two picture buttons in the corner:
+- One of two modes, whichever the parent has chosen in the parent area. The child is never shown the choice: both buttons on screen at once proved a distraction in itself.
   - **Play all**: letters light up one at a time in order, current letter slightly enlarged, synced to a recorded song if the parent provided timing marks, otherwise at a fixed interval (700 ms default). Pause and resume.
   - **Touch**: every letter is a target; tapping one lights it and says its name, and nothing advances on its own.
 - Exposure only in both modes, no scoring.
@@ -68,6 +68,7 @@ Mockups for each screen are in `docs/design-reference/`. Match their layout, col
 ### 3.8 Parent area
 Reached only through the parent gate. Contains:
 - **Session length** slider: 5, 10, 15, 20 minutes (default 10).
+- **A to Z Song mode**: play all, or he touches a letter (default play all).
 - **Child's name** and **family names** (used to build the letter sequence, see 5.2).
 - **Letter progress** summary and a button to the full 26-letter wall.
 - **Photos and voices**: per letter, add or replace a photo and a voice clip; per number 1 to 10, a voice clip; one goodnight clip; one song clip.

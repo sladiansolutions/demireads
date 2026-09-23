@@ -183,8 +183,37 @@ export default function ParentArea({ onBack, onWall }: ParentAreaProps) {
           </section>
 
           <section className="parent__card">
-            <h2 className="parent__cardTitle">Song timings</h2>
-            <SongMarksPanel />
+            <h2 className="parent__cardTitle">A to Z Song</h2>
+            <p className="parent__label">What the screen does when he opens it</p>
+            <div className="parent__choices">
+              <button
+                type="button"
+                className={
+                  settings.songMode === 'play' ? 'parent__choice parent__choice--on' : 'parent__choice'
+                }
+                onClick={() => update({ songMode: 'play' })}
+              >
+                Play all A to Z
+              </button>
+              <button
+                type="button"
+                className={
+                  settings.songMode === 'touch' ? 'parent__choice parent__choice--on' : 'parent__choice'
+                }
+                onClick={() => update({ songMode: 'touch' })}
+              >
+                He touches a letter
+              </button>
+            </div>
+            <p className="parent__muted">
+              {settings.songMode === 'play'
+                ? 'He gets one play button, and the letters light up in order on their own.'
+                : 'He gets 26 letters and nothing else. Touching one lights it and says its name.'}{' '}
+              Only one of the two is ever on his screen: having both to choose from was a
+              distraction in itself.
+            </p>
+
+            {settings.songMode === 'play' && <SongMarksPanel />}
           </section>
 
           <section className="parent__card">

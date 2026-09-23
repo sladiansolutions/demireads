@@ -33,6 +33,12 @@ export interface Settings {
    * partial list is useful: the letters past it fall back to an interval.
    */
   songMarks?: number[] | undefined;
+  /**
+   * How the A to Z Song behaves: run through A to Z on its own, or wait for
+   * him to touch each letter. Chosen by a parent, because offering both at
+   * once on the child screen was a distraction in itself.
+   */
+  songMode: 'play' | 'touch';
 }
 
 export type LetterState = 0 | 1 | 2 | 3;

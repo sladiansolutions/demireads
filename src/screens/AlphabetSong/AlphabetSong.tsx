@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import HomeButton from '../../components/HomeButton';
-import { PlayIcon, PauseIcon, TouchIcon } from '../../components/icons';
+import { PlayIcon, PauseIcon } from '../../components/icons';
 import { useSettings } from '../../app/settings';
 import { useMedia } from '../../app/media';
 import { useProgress } from '../../app/progress';
@@ -25,17 +25,20 @@ import './AlphabetSong.css';
  * it and says its name. Nothing moves unless he moves it, which is the mode
  * for a child who wants to stop on W for a while.
  *
+ * Which mode is in force is a parent setting. He is never shown the choice:
+ * having both buttons on the screen turned out to be its own distraction, and
+ * rule 4 wants as little as possible in front of him.
+ *
  * Exposure only in both: nothing here is scored.
  */
-type Mode = 'play' | 'touch';
 
 export default function AlphabetSong({ onHome }: { onHome: () => void }) {
-  const { songIntervalMs, songMarks } = useSettings();
+  const { songIntervalMs, songMarks, songMode } = useSettings();
   const { urlFor } = useMedia();
   const { addExposure } = useProgress();
   const { noteInteraction, hold } = useSession();
 
-  const [mode, setMode] = useState<Mode>('play');
+  const mode = songMode;
   const [index, setIndex] = useState(-1);
   const [touched, setTouched] = useState<number | null>(null);
   const [playing, setPlaying] = useState(false);
@@ -59,6 +62,13 @@ export default function AlphabetSong({ onHome }: { onHome: () => void }) {
     stopClip();
     release.current?.();
   }, []);
+
+  // If a parent switches to touch while the song is mid-play, stop it.
+  useEffect(() => {
+    if (mode !== 'touch') return;
+    stop();
+    setIndex(-1);
+  }, [mode, stop]);
 
   const marks = songMarks ?? [];
   const synced = marksUsable(marks) && songUrl !== undefined;
@@ -118,8 +128,6 @@ export default function AlphabetSong({ onHome }: { onHome: () => void }) {
 
   function togglePlay() {
     noteInteraction();
-    setMode('play');
-    setTouched(null);
 
     if (playing) {
       setPlaying(false);
@@ -141,13 +149,6 @@ export default function AlphabetSong({ onHome }: { onHome: () => void }) {
     }
   }
 
-  function chooseTouch() {
-    noteInteraction();
-    stop();
-    setIndex(-1);
-    setMode('touch');
-  }
-
   function tap(i: number, letter: string) {
     noteInteraction();
     setTouched(i);
@@ -163,36 +164,17 @@ export default function AlphabetSong({ onHome }: { onHome: () => void }) {
           <div className="screen__title">A to Z Song</div>
         </div>
 
-        {/* Two ways to use the screen. Both are pictures, not words (rule 4). */}
-        <div className="song__modes">
+        {/* In touch mode there is nothing to press but the letters. */}
+        {mode === 'play' && (
           <button
             type="button"
-            className={
-              mode === 'play'
-                ? 'round-btn round-btn--dark hit-child'
-                : 'round-btn hit-child'
-            }
+            className="round-btn round-btn--dark hit-child"
             aria-label={playing ? 'Pause' : 'Play all the letters'}
-            aria-pressed={mode === 'play'}
             onClick={togglePlay}
           >
             {playing ? <PauseIcon /> : <PlayIcon />}
           </button>
-
-          <button
-            type="button"
-            className={
-              mode === 'touch'
-                ? 'round-btn round-btn--dark hit-child'
-                : 'round-btn hit-child'
-            }
-            aria-label="Touch a letter to hear it"
-            aria-pressed={mode === 'touch'}
-            onClick={chooseTouch}
-          >
-            <TouchIcon />
-          </button>
-        </div>
+        )}
       </div>
 
       <div className={mode === 'touch' ? 'song__grid song__grid--touch' : 'song__grid'}>

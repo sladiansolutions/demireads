@@ -6,9 +6,10 @@
 import type { ReactElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import { SettingsProvider } from '../app/settings';
+import { DEFAULT_SETTINGS, SettingsProvider } from '../app/settings';
 import { MediaProvider } from '../app/media';
 import { SessionProvider } from '../app/session';
+import { ProgressProvider } from '../app/progress';
 import CountDucks from './CountDucks/CountDucks';
 import AlphabetSong from './AlphabetSong/AlphabetSong';
 import Goodnight from './Goodnight/Goodnight';
@@ -48,16 +49,17 @@ describe('AlphabetSong', () => {
     expect(html).not.toContain('song__tile--current');
   });
 
-  it('starts paused, in play mode, offering both ways in', () => {
+  it('offers one play button and no mode choice, on the default setting', () => {
     expect(html).toContain('aria-label="Play all the letters"');
-    expect(html).toContain('aria-label="Touch a letter to hear it"');
+    // The mode belongs to the parent area now; he is never shown the choice.
+    expect(html).not.toContain('Touch a letter to hear it');
   });
 
-  it('starts in play mode, so the tiles are not yet targets', () => {
+  it('leaves the tiles untappable in play mode', () => {
     expect(html).toContain('class="song__grid"');
     expect(html).not.toContain('song__grid--touch');
-    // Only the two mode buttons and Home are pressable.
-    expect(html.match(/<button/g)).toHaveLength(3);
+    // Home and play, and nothing else.
+    expect(html.match(/<button/g)).toHaveLength(2);
   });
 });
 
@@ -76,5 +78,38 @@ describe('Goodnight', () => {
 
   it('shows his own letters asleep', () => {
     expect(html.match(/class="night__tile"/g)).toHaveLength(3);
+  });
+});
+
+describe('AlphabetSong in touch mode', () => {
+  const html = renderToStaticMarkup(
+    <SettingsProvider initial={{ songMode: 'touch' }}>
+      <SessionProvider>
+        <ProgressProvider>
+          <MediaProvider>
+            <AlphabetSong onHome={() => {}} />
+          </MediaProvider>
+        </ProgressProvider>
+      </SessionProvider>
+    </SettingsProvider>,
+  );
+
+  it('makes every letter a target', () => {
+    expect(html).toContain('song__grid--touch');
+    expect(html.match(/aria-label="Letter [A-Z]"/g)).toHaveLength(26);
+  });
+
+  it('shows no play button, so the letters are the only thing to press', () => {
+    expect(html).not.toContain('Play all the letters');
+    // 26 letters plus Home.
+    expect(html.match(/<button/g)).toHaveLength(27);
+  });
+
+  it('lights nothing until he touches one', () => {
+    expect(html).not.toContain('song__tile--current');
+  });
+
+  it('is off by default: play all is what a fresh install does', () => {
+    expect(DEFAULT_SETTINGS.songMode).toBe('play');
   });
 });

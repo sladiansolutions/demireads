@@ -12,4 +12,5 @@ export const DEFAULT_SETTINGS: Settings = {
   songIntervalMs: 700,
   bookOrder: 'sequence',
   letterWords: {},
+  songMode: 'play',
 };
