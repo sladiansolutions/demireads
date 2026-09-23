@@ -35,8 +35,8 @@ every letter has a picture for the word it is named after.
 | apple | apple.svg | U+1F34E |
 | ball | ball.svg | U+26BD |
 | banana | banana.svg | U+1F34C |
+| car | car.svg | U+1F697 |
 | cat | cat.svg | U+1F431 |
-| cup | cup.svg | U+1F964 |
 | dog | dog.svg | U+1F436 |
 | duck | duck.svg | U+1F986 |
 | egg | egg.svg | U+1F95A |
@@ -58,8 +58,8 @@ every letter has a picture for the word it is named after.
 | moon | moon.svg | U+1F319 |
 | nest | nest.svg | U+1FABA |
 | nose | nose.svg | U+1F443 |
-| octopus | octopus.svg | U+1F419 |
 | orange | orange.svg | U+1F34A |
+| owl | owl.svg | U+1F989 |
 | pear | pear.svg | U+1F350 |
 | pig | pig.svg | U+1F437 |
 | queen | queen.svg | U+1F478 |

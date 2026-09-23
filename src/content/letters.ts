@@ -21,7 +21,7 @@ export interface LetterContent {
 export const LETTERS: readonly LetterContent[] = [
   { letter: 'A', soundLabel: '/a/', soundSpoken: 'ah', words: ['apple', 'ant'] },
   { letter: 'B', soundLabel: '/b/', soundSpoken: 'buh', words: ['ball', 'banana'] },
-  { letter: 'C', soundLabel: '/k/', soundSpoken: 'kuh', words: ['cat', 'cup'] },
+  { letter: 'C', soundLabel: '/k/', soundSpoken: 'kuh', words: ['car', 'cat'] },
   { letter: 'D', soundLabel: '/d/', soundSpoken: 'duh', words: ['dog', 'duck'] },
   { letter: 'E', soundLabel: '/e/', soundSpoken: 'eh', words: ['egg', 'elephant'] },
   { letter: 'F', soundLabel: '/f/', soundSpoken: 'fff', words: ['fish', 'flower'] },
@@ -33,7 +33,7 @@ export const LETTERS: readonly LetterContent[] = [
   { letter: 'L', soundLabel: '/l/', soundSpoken: 'lll', words: ['leaf', 'lion'] },
   { letter: 'M', soundLabel: '/m/', soundSpoken: 'mmm', words: ['moon', 'milk'] },
   { letter: 'N', soundLabel: '/n/', soundSpoken: 'nnn', words: ['nose', 'nest'] },
-  { letter: 'O', soundLabel: '/o/', soundSpoken: 'oh', words: ['orange', 'octopus'] },
+  { letter: 'O', soundLabel: '/o/', soundSpoken: 'oh', words: ['owl', 'orange'] },
   { letter: 'P', soundLabel: '/p/', soundSpoken: 'puh', words: ['pig', 'pear'] },
   { letter: 'Q', soundLabel: '/kw/', soundSpoken: 'kwuh', words: ['queen', 'quilt'] },
   { letter: 'R', soundLabel: '/r/', soundSpoken: 'rrr', words: ['rain', 'rabbit'] },
