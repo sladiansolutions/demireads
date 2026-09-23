@@ -11,7 +11,7 @@ describe('exampleWordsFor', () => {
   });
 
   it('uses a family name on its initial, capitalized', () => {
-    expect(exampleWordsFor('M', 'Sebastian', ['mummy'])).toEqual(['Mummy', 'moon']);
+    expect(exampleWordsFor('M', 'Sebastian', ['mummy'])).toEqual(['Mummy', 'monkey']);
   });
 
   it('prefers the child over a family member sharing an initial', () => {
@@ -26,13 +26,13 @@ describe('exampleWordsFor', () => {
 describe('bookWordFor', () => {
   it('is the first example word', () => {
     expect(bookWordFor('S', 'Sebastian')).toBe('Sebastian');
-    expect(bookWordFor('T', 'Sebastian')).toBe('train');
+    expect(bookWordFor('T', 'Sebastian')).toBe('toy');
   });
 });
 
 describe('a word the parent typed', () => {
   it('wins over the bundled default', () => {
-    expect(exampleWordsFor('T', 'Sebastian', [], { T: 'teddy' })).toEqual(['teddy', 'train']);
+    expect(exampleWordsFor('T', 'Sebastian', [], { T: 'teddy' })).toEqual(['teddy', 'toy']);
   });
 
   it("wins over the child's own name", () => {
@@ -40,12 +40,12 @@ describe('a word the parent typed', () => {
   });
 
   it('wins over a family name', () => {
-    expect(exampleWordsFor('M', 'Sebastian', ['Mummy'], { M: 'moon' })).toEqual(['moon', 'moon']);
+    expect(exampleWordsFor('M', 'Sebastian', ['Mummy'], { M: 'moon' })).toEqual(['moon', 'monkey']);
   });
 
   it('is ignored when blank or only spaces, rather than showing an empty page', () => {
-    expect(exampleWordsFor('T', 'Sebastian', [], { T: '   ' })).toEqual(['train', 'tiger']);
-    expect(exampleWordsFor('T', 'Sebastian', [], { T: '' })).toEqual(['train', 'tiger']);
+    expect(exampleWordsFor('T', 'Sebastian', [], { T: '   ' })).toEqual(['toy', 'tiger']);
+    expect(exampleWordsFor('T', 'Sebastian', [], { T: '' })).toEqual(['toy', 'tiger']);
   });
 
   it('is trimmed, so a stray space does not break the illustration lookup', () => {

@@ -14,9 +14,17 @@ describe('illustrations', () => {
     expect(missing.sort()).toEqual([...NO_ILLUSTRATION].sort());
   });
 
-  it('has no unused files', () => {
+  it('keeps extra pictures as a library for words a parent types', () => {
+    // Words dropped as his own vocabulary took over — duck, train, milk and
+    // the rest — are deliberately still here. illustrationFor() finds them,
+    // so typing "train" under T in the parent area gets a picture for free.
     const used = new Set(LETTERS.flatMap((l) => l.words.map((w) => w.toLowerCase())));
-    expect(ILLUSTRATED_WORDS.filter((word) => !used.has(word))).toEqual([]);
+    const spare = ILLUSTRATED_WORDS.filter((word) => !used.has(word));
+    for (const word of spare) expect(illustrationFor(word)).toBeDefined();
+  });
+
+  it('names every file after a plain lowercase word', () => {
+    for (const word of ILLUSTRATED_WORDS) expect(word).toMatch(/^[a-z-]+$/);
   });
 
   it('resolves to a bundled asset, never a remote URL', () => {

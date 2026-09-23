@@ -50,10 +50,10 @@ describe('the per-letter word field', () => {
   });
 
   it('shows the current word as a hint rather than filling the box', () => {
-    expect(html).toContain('placeholder="train"');
+    expect(html).toContain('placeholder="toy"');
     expect(html).toContain('aria-label="Word for T"');
     // Empty value: the default is a hint, not something to delete first.
-    expect(html).toContain('aria-label="Word for T" placeholder="train" value=""');
+    expect(html).toContain('aria-label="Word for T" placeholder="toy" value=""');
   });
 
   it('is not offered for numbers or the one-off clips', () => {

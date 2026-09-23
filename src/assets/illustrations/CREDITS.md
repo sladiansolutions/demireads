@@ -17,15 +17,23 @@ These are the fallback pictures only. A parent photo for a letter always wins
 
 ## Drawn for this app
 
-Unicode has no xylophone and no igloo, so Twemoji has neither.
-`xylophone.svg` and `igloo.svg` are drawn here as flat shapes, the xylophone
-in the app's own palette and the igloo in snow blues. No attribution needed.
+Unicode has no xylophone, igloo or clothes iron, so Twemoji has none of them.
+`xylophone.svg`, `igloo.svg` and `iron.svg` are drawn here as flat shapes:
+the xylophone in the app's own palette, the igloo in snow blues, the iron in
+steel with a plum handle. No attribution needed.
 
 ## Words with no illustration
 
 Three words keep the dashed placeholder, because nothing reads clearly as
 them at this size: **jam, quilt, zip**. All three are second example words, so
 every letter has a picture for the word it is named after.
+
+## More pictures than words
+
+Some files match no current example word — duck, train, milk, rain, insect and
+others left over as Sebastian's own vocabulary took over. They stay because a
+parent can type any word against a letter in the parent area, and the lookup
+finds whatever is here. Typing "train" under T gets a picture for nothing.
 
 ## Files
 
