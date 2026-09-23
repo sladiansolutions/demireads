@@ -146,3 +146,33 @@ export function FindGlyph({ size = 180 }: { size?: number }) {
     </svg>
   );
 }
+
+export function PlayIcon({ size = 40 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M8 5l12 7-12 7z" />
+    </svg>
+  );
+}
+
+export function PauseIcon({ size = 40 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <rect x="6" y="5" width="4" height="14" rx="1.5" />
+      <rect x="14" y="5" width="4" height="14" rx="1.5" />
+    </svg>
+  );
+}
+
+/** A fingertip on a surface, with ripples: the "touch a letter" mode. */
+export function TouchIcon({ size = 40 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="3.6" fill="currentColor" />
+      <g fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+        <path d="M6.6 6.6a7.6 7.6 0 0 0 0 10.8" />
+        <path d="M17.4 6.6a7.6 7.6 0 0 1 0 10.8" />
+      </g>
+    </svg>
+  );
+}

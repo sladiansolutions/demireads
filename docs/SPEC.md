@@ -48,8 +48,10 @@ Mockups for each screen are in `docs/design-reference/`. Match their layout, col
 
 ### 3.5 A to Z Song (child)
 - All 26 letters in a grid, unlit.
-- Play: letters light up one at a time in order, current letter slightly enlarged, synced to a recorded song if the parent provided timing marks, otherwise at a fixed interval (700 ms default).
-- Pause and resume. Exposure only, no scoring.
+- Two modes, chosen with two picture buttons in the corner:
+  - **Play all**: letters light up one at a time in order, current letter slightly enlarged, synced to a recorded song if the parent provided timing marks, otherwise at a fixed interval (700 ms default). Pause and resume.
+  - **Touch**: every letter is a target; tapping one lights it and says its name, and nothing advances on its own.
+- Exposure only in both modes, no scoring.
 
 ### 3.6 Find It (child) [phase 4]
 - Prompt audio: "Where is [letter]?" Shows 2 choices at first, up to 4 as difficulty grows.

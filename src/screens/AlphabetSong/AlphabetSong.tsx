@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import HomeButton from '../../components/HomeButton';
+import { PlayIcon, PauseIcon, TouchIcon } from '../../components/icons';
 import { useSettings } from '../../app/settings';
 import { useMedia } from '../../app/media';
+import { useProgress } from '../../app/progress';
 import { useSession } from '../../app/session';
 import { ALPHABET } from '../../content/letters';
 import { tileStyleFor } from '../../engine/tileColor';
@@ -12,21 +14,30 @@ import { currentClipTime, pauseClip, playClip, resumeClip, stopClip } from '../.
 import './AlphabetSong.css';
 
 /**
- * SPEC 3.5. Letters light one at a time, in order.
+ * SPEC 3.5, in two modes.
  *
- * If a parent has tapped along to their recording, the letters follow those
- * marks, so the lighting matches the singing. Otherwise they advance on a
- * fixed interval — and past the end of a partial set of marks, on the average
- * gap between the marks that do exist.
+ * **Play all** runs A to Z on its own. If a parent has tapped along to their
+ * recording the letters follow those marks, so the lighting matches the
+ * singing; otherwise they advance on a fixed interval, and past the end of a
+ * partial set of marks, on the average gap between the marks that exist.
  *
- * Exposure only: nothing here is scored.
+ * **Touch** waits for him. Every letter is a target, and tapping one lights
+ * it and says its name. Nothing moves unless he moves it, which is the mode
+ * for a child who wants to stop on W for a while.
+ *
+ * Exposure only in both: nothing here is scored.
  */
+type Mode = 'play' | 'touch';
+
 export default function AlphabetSong({ onHome }: { onHome: () => void }) {
   const { songIntervalMs, songMarks } = useSettings();
   const { urlFor } = useMedia();
+  const { addExposure } = useProgress();
   const { noteInteraction, hold } = useSession();
 
+  const [mode, setMode] = useState<Mode>('play');
   const [index, setIndex] = useState(-1);
+  const [touched, setTouched] = useState<number | null>(null);
   const [playing, setPlaying] = useState(false);
   const release = useRef<(() => void) | null>(null);
   const spoken = useRef(-1);
@@ -105,8 +116,10 @@ export default function AlphabetSong({ onHome }: { onHome: () => void }) {
     return undefined;
   }, [playing, index, songIntervalMs, stop]);
 
-  function toggle() {
+  function togglePlay() {
     noteInteraction();
+    setMode('play');
+    setTouched(null);
 
     if (playing) {
       setPlaying(false);
@@ -128,6 +141,20 @@ export default function AlphabetSong({ onHome }: { onHome: () => void }) {
     }
   }
 
+  function chooseTouch() {
+    noteInteraction();
+    stop();
+    setIndex(-1);
+    setMode('touch');
+  }
+
+  function tap(i: number, letter: string) {
+    noteInteraction();
+    setTouched(i);
+    sayLetterName(letter);
+    addExposure(letter);
+  }
+
   return (
     <div className="screen song">
       <div className="song__header">
@@ -135,36 +162,65 @@ export default function AlphabetSong({ onHome }: { onHome: () => void }) {
           <HomeButton onClick={onHome} />
           <div className="screen__title">A to Z Song</div>
         </div>
-        <button
-          type="button"
-          className="round-btn round-btn--dark hit-child"
-          aria-label={playing ? 'Pause the song' : 'Play the song'}
-          onClick={toggle}
-        >
-          {playing ? (
-            <svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-              <rect x="6" y="5" width="4" height="14" rx="1.5" />
-              <rect x="14" y="5" width="4" height="14" rx="1.5" />
-            </svg>
-          ) : (
-            <svg width="40" height="40" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">
-              <path d="M8 5l12 7-12 7z" />
-            </svg>
-          )}
-        </button>
+
+        {/* Two ways to use the screen. Both are pictures, not words (rule 4). */}
+        <div className="song__modes">
+          <button
+            type="button"
+            className={
+              mode === 'play'
+                ? 'round-btn round-btn--dark hit-child'
+                : 'round-btn hit-child'
+            }
+            aria-label={playing ? 'Pause' : 'Play all the letters'}
+            aria-pressed={mode === 'play'}
+            onClick={togglePlay}
+          >
+            {playing ? <PauseIcon /> : <PlayIcon />}
+          </button>
+
+          <button
+            type="button"
+            className={
+              mode === 'touch'
+                ? 'round-btn round-btn--dark hit-child'
+                : 'round-btn hit-child'
+            }
+            aria-label="Touch a letter to hear it"
+            aria-pressed={mode === 'touch'}
+            onClick={chooseTouch}
+          >
+            <TouchIcon />
+          </button>
+        </div>
       </div>
 
-      <div className="song__grid">
+      <div className={mode === 'touch' ? 'song__grid song__grid--touch' : 'song__grid'}>
         {ALPHABET.map((letter, i) => {
-          const lit = i <= index;
-          const current = i === index;
+          // Playing lights everything up to here; touching lights just one.
+          const lit = mode === 'touch' ? i === touched : i <= index;
+          const current = mode === 'touch' ? i === touched : i === index;
           const { fill, text } = tileStyleFor(i);
+          const className = current ? 'song__tile song__tile--current' : 'song__tile';
+          const style = lit ? { background: fill, color: text } : undefined;
+
+          if (mode === 'touch') {
+            return (
+              <button
+                key={letter}
+                type="button"
+                className={className}
+                style={style}
+                aria-label={`Letter ${letter}`}
+                onClick={() => tap(i, letter)}
+              >
+                {letter}
+              </button>
+            );
+          }
+
           return (
-            <div
-              key={letter}
-              className={current ? 'song__tile song__tile--current' : 'song__tile'}
-              style={lit ? { background: fill, color: text } : undefined}
-            >
+            <div key={letter} className={className} style={style}>
               {letter}
             </div>
           );

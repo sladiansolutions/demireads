@@ -48,8 +48,16 @@ describe('AlphabetSong', () => {
     expect(html).not.toContain('song__tile--current');
   });
 
-  it('starts paused, offering play', () => {
-    expect(html).toContain('aria-label="Play the song"');
+  it('starts paused, in play mode, offering both ways in', () => {
+    expect(html).toContain('aria-label="Play all the letters"');
+    expect(html).toContain('aria-label="Touch a letter to hear it"');
+  });
+
+  it('starts in play mode, so the tiles are not yet targets', () => {
+    expect(html).toContain('class="song__grid"');
+    expect(html).not.toContain('song__grid--touch');
+    // Only the two mode buttons and Home are pressable.
+    expect(html.match(/<button/g)).toHaveLength(3);
   });
 });
 

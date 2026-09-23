@@ -49,8 +49,27 @@
   }
 
   .song__tile {
-    height: clamp(64px, 11vh, 96px);
+    height: clamp(var(--touch-child), 13vh, 132px);
     border-radius: 22px;
     font-size: clamp(40px, 9vw, 62px);
   }
+}
+
+.song__modes {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-shrink: 0;
+}
+
+/* In touch mode every letter is a target, so it must meet the 120px floor
+   (rule 5) and answer a press. */
+.song__grid--touch .song__tile {
+  min-height: var(--touch-child);
+  cursor: pointer;
+  transition: transform var(--tap-in) var(--ease-tap), background 200ms var(--ease-tap);
+}
+
+.song__grid--touch .song__tile:active {
+  transform: scale(0.96);
 }
