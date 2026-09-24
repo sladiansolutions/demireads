@@ -68,8 +68,15 @@ describe('LetterGarden', () => {
     // No default picture of Sebastian exists, so that slot waits for a parent
     // photo, while "sun" shows its bundled illustration.
     expect(html).toContain('[PHOTO: Sebastian]');
-    expect(html).toContain('class="illus garden__photoSlot"');
+    expect(html).toContain('illus garden__photoSlot');
     expect(html).toContain('<img class="illus__img"');
+  });
+
+  it('makes both pictures tappable, each offering its own name', () => {
+    expect(html).toContain('aria-label="Hear Sebastian"');
+    expect(html).toContain('aria-label="Hear sun"');
+    // Including the placeholder: a picture-less word still answers a tap.
+    expect(html).toContain('photo-slot garden__photoSlot illus--pressable');
   });
 
   it('offers a replay button labelled with what the letter stands for', () => {
@@ -92,6 +99,11 @@ describe('FamilyBook', () => {
     expect(html).toContain('is for Sebastian');
     // Page one is a name page, so it shows the placeholder, not an icon.
     expect(html).toContain('[PHOTO: Sebastian]');
+  });
+
+  it('lets the page picture say its own word', () => {
+    expect(html).toContain('aria-label="Hear Sebastian"');
+    expect(html).toContain('illus--pressable');
   });
 
   it('has a page dot for all 26 letters, one of them current', () => {

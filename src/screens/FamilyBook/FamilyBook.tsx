@@ -9,7 +9,7 @@ import { useProgress } from '../../app/progress';
 import { bookWordFor } from '../../engine/exampleWords';
 import { bookSequence } from '../../engine/letterSequence';
 import { tileStyleFor } from '../../engine/tileColor';
-import { sayBookPage } from '../../audio/say';
+import { sayBookPage, sayWord } from '../../audio/say';
 import './FamilyBook.css';
 
 const SWIPE_MIN_PX = 40;
@@ -87,6 +87,7 @@ export default function FamilyBook({ onHome }: { onHome: () => void }) {
               photoUrl={photoUrl(letter)}
               className="book__photoSlot"
               placeholderIconSize={64}
+              onPress={() => sayWord(word)}
             />
 
             <div className="book__text">

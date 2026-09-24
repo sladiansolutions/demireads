@@ -276,3 +276,23 @@
     min-height: 100%;
   }
 }
+
+/* A picture he can tap. Rule 6 wants feedback inside 100ms, so the press
+   itself shows, and the name is spoken immediately. */
+.illus--pressable {
+  padding: 0;
+  border: none;
+  appearance: none;
+  min-width: var(--touch-child);
+  min-height: var(--touch-child);
+  transition: transform var(--tap-in) var(--ease-tap);
+}
+
+.illus--pressable:active {
+  transform: scale(0.97);
+}
+
+/* The placeholder keeps its dashed frame when it becomes a button. */
+button.photo-slot {
+  background: var(--photo-slot-bg, transparent);
+}

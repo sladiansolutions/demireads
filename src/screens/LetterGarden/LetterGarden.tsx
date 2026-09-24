@@ -9,7 +9,7 @@ import { letterContent } from '../../content/letters';
 import { coplayPrompt } from '../../content/coplay';
 import { exampleWordsFor } from '../../engine/exampleWords';
 import { tileStyleFor } from '../../engine/tileColor';
-import { sayLetter } from '../../audio/say';
+import { sayLetter, sayWord } from '../../audio/say';
 import './LetterGarden.css';
 
 const BOUNCE_MS = 320;
@@ -130,6 +130,7 @@ function Spotlight({ selected, activeSet, bouncing, photoUrl, words, onPick }: S
                 word={word}
                 photoUrl={slot === 0 ? photoUrl : undefined}
                 className="garden__photoSlot"
+                onPress={() => sayWord(word)}
               />
               <div className="garden__word">{word}</div>
             </div>
